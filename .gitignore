@@ -1,0 +1,32 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Dữ liệu ảnh thô và mảng lớn (chỉ lưu trên máy hoặc Kaggle/Drive)
+data/raw/snapshots/
+data/processed/*.npz
+data/processed/*.npy
+data/detections/
+
+# Checkpoint nặng (chỉ push lên Hugging Face hoặc Google Drive)
+models/**/*.pt
+models/**/*.pth
+!models/yolo/best.pt   # (Nếu repo cho phép lưu file 50MB, nếu không thì bỏ)
+
+# Logs & temp results
+*.log
+results/stgnn_runs/
+wandb/
+runs/
+scripts/data/
+**/snapshots/
+
+scripts/data/
+**/snapshots/
+.env
