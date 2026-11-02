@@ -7,7 +7,7 @@ import requests
 from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
-from huggingface_hub import HfApi
+from huggingface_hub import HfApi, CommitOperationAdd
 
 # Load các biến môi trường từ file .env
 load_dotenv()
@@ -35,7 +35,7 @@ HF_REPO_ID = os.getenv("HF_REPO_ID", "")
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", 10))
 INTERVAL_SECONDS = int(os.getenv("INTERVAL_SECONDS", 300))
 IMAGE_HANDLER_URL = os.getenv(
-    "IMAGE_HANDLER_URL",
+    "IMAGE_HANDLER_URL", 
     "http://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id="
 )
 
@@ -86,7 +86,6 @@ CAMERAS = [
 last_image_hashes = {}
 hf_api = HfApi()
 
-
 def send_alert(message: str):
     """Gửi cảnh báo trực tiếp qua Discord Webhook"""
     if not DISCORD_WEBHOOK_URL:
@@ -100,7 +99,6 @@ def send_alert(message: str):
     except Exception as e:
         logger.error(f"Lỗi kết nối Discord Webhook: {e}")
 
-
 def save_image_to_local(cam_id: str, content: bytes, now_str: str):
     """Lưu ảnh xuống thư mục Local nếu SAVE_LOCAL = True"""
     cam_dir = BASE_DIR / cam_id
@@ -108,7 +106,6 @@ def save_image_to_local(cam_id: str, content: bytes, now_str: str):
     out_path = cam_dir / f"{now_str}.jpg"
     with open(out_path, "wb") as f:
         f.write(content)
-
 
 def fetch_image(cam_id: str) -> bytes | None:
     url = f"{IMAGE_HANDLER_URL}{cam_id}&t={int(time.time() * 1000)}"
@@ -123,36 +120,36 @@ def fetch_image(cam_id: str) -> bytes | None:
             img_hash = hashlib.md5(content).hexdigest()
             if last_image_hashes.get(cam_id) == img_hash:
                 return None  # Bỏ qua nếu ảnh bị trùng / đơ
-
+            
             last_image_hashes[cam_id] = img_hash
             return content
     except Exception as e:
         logger.debug(f"Fetch failed [{cam_id}]: {e}")
     return None
 
-
-def upload_bytes_to_hf(image_bytes: bytes, path_in_repo: str) -> bool:
+def upload_batch_to_hf(operations: list, commit_message: str) -> bool:
+    """Gom toàn bộ ảnh trong chu kỳ và commit 1 lần duy nhất lên Hugging Face"""
     if not HF_TOKEN or not HF_REPO_ID:
         logger.error("Thiếu HF_TOKEN hoặc HF_REPO_ID trong .env!")
         return False
 
+    if not operations:
+        return True
+
     try:
-        file_obj = io.BytesIO(image_bytes)
-        hf_api.upload_file(
-            path_or_fileobj=file_obj,
-            path_in_repo=path_in_repo,
+        hf_api.create_commit(
             repo_id=HF_REPO_ID,
             repo_type="dataset",
-            token=HF_TOKEN
+            token=HF_TOKEN,
+            operations=operations,
+            commit_message=commit_message
         )
         return True
     except Exception as e:
-        logger.error(f"Lỗi đẩy file lên HF ({path_in_repo}): {e}")
+        logger.error(f"Lỗi commit batch lên HF: {e}")
         return False
 
-
 def main():
-    # Kiểm tra biến quan trọng
     if not HF_TOKEN or not HF_REPO_ID:
         logger.error("❌ Thiếu biến HF_TOKEN hoặc HF_REPO_ID trong file .env! Dừng chương trình.")
         return
@@ -165,19 +162,19 @@ def main():
 
     logger.info(f"🚦 Khởi chạy crawler cho {len(CAMERAS)} camera...")
     send_alert(f"🚀 **Traffic Crawler Started** | Save Local: `{SAVE_LOCAL}` | Tracking: `{len(CAMERAS)}` cams.")
-
+    
     cycle = 1
     consecutive_failed_cycles = 0
 
     while True:
         ts = datetime.now()
         start_time = time.time()
-        success_count = 0
         failed_count = 0
+        operations = []
 
         now_str = ts.strftime("%Y%m%d_%H%M%S")
         logger.info(f"=== [Chu kỳ #{cycle} lúc {ts.strftime('%Y-%m-%d %H:%M:%S')}] ===")
-
+        
         for cam in CAMERAS:
             cam_id = cam["id"]
             cam_name = cam["name"]
@@ -187,19 +184,30 @@ def main():
                 failed_count += 1
                 continue
 
-            # 1. Lưu đĩa cứng Local (nếu tùy chọn SAVE_LOCAL = True)
+            # 1. Lưu local nếu cấu hình BẬT
             if SAVE_LOCAL:
                 save_image_to_local(cam_id, img_bytes, now_str)
 
-            # 2. Đẩy thẳng lên Hugging Face Repo
+            # 2. Đưa vào danh sách chờ commit batch
             path_in_repo = f"snapshots/{cam_id}/{now_str}.jpg"
-            if upload_bytes_to_hf(img_bytes, path_in_repo):
-                success_count += 1
-                logger.info(f"  [OK] Uploaded [{cam_name}] -> HF:{path_in_repo}")
-            else:
-                failed_count += 1
-
+            operations.append(
+                CommitOperationAdd(
+                    path_in_repo=path_in_repo,
+                    path_or_fileobj=img_bytes
+                )
+            )
+            logger.info(f"  [STAGED] [{cam_name}] -> {path_in_repo}")
             time.sleep(0.1)
+
+        # 3. Commit tất cả ảnh trong chu kỳ lên HF chỉ bằng 1 HTTP request
+        success_count = 0
+        if operations:
+            commit_msg = f"Add {len(operations)} snapshots (Cycle #{cycle} - {now_str})"
+            if upload_batch_to_hf(operations, commit_msg):
+                success_count = len(operations)
+                logger.info(f"🚀 [HF COMMIT SUCCESS] Đã đẩy {success_count} ảnh trong 1 commit!")
+            else:
+                failed_count += len(operations)
 
         elapsed = time.time() - start_time
         logger.info(f"✅ Chu kỳ #{cycle} hoàn tất: {success_count} thành công | {failed_count} thất bại ({elapsed:.1f}s)")
@@ -228,7 +236,5 @@ def main():
         sleep_wait = max(0.0, INTERVAL_SECONDS - elapsed)
         time.sleep(sleep_wait)
 
-
 if __name__ == "__main__":
     main()
-
