@@ -31,6 +31,9 @@ MAX_CONSECUTIVE_FAILS = int(os.getenv("MAX_CONSECUTIVE_FAILS", 3))
 HF_TOKEN = os.getenv("HF_TOKEN", "")
 HF_REPO_ID = os.getenv("HF_REPO_ID", "")
 
+# Cấu hình tần suất commit lên HF (12 chu kỳ x 5 phút = 60 phút / 1 commit)
+UPLOAD_EVERY_N_CYCLES = int(os.getenv("UPLOAD_EVERY_N_CYCLES", 12))
+
 # 5. CẤU HÌNH MẠNG
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", 10))
 INTERVAL_SECONDS = int(os.getenv("INTERVAL_SECONDS", 300))
@@ -128,7 +131,7 @@ def fetch_image(cam_id: str) -> bytes | None:
     return None
 
 def upload_batch_to_hf(operations: list, commit_message: str) -> bool:
-    """Gom toàn bộ ảnh trong chu kỳ và commit 1 lần duy nhất lên Hugging Face"""
+    """Commit toàn bộ danh sách file tích lũy lên Hugging Face trong 1 commit duy nhất"""
     if not HF_TOKEN or not HF_REPO_ID:
         logger.error("Thiếu HF_TOKEN hoặc HF_REPO_ID trong .env!")
         return False
@@ -160,17 +163,18 @@ def main():
     else:
         logger.info("⚡ Chế độ lưu local: TẮT (Chỉ đẩy dữ liệu từ RAM lên Hugging Face)")
 
-    logger.info(f"🚦 Khởi chạy crawler cho {len(CAMERAS)} camera...")
-    send_alert(f"🚀 **Traffic Crawler Started** | Save Local: `{SAVE_LOCAL}` | Tracking: `{len(CAMERAS)}` cams.")
+    logger.info(f"🚦 Khởi chạy crawler cho {len(CAMERAS)} camera (Upload lên HF mỗi {UPLOAD_EVERY_N_CYCLES} chu kỳ)...")
+    send_alert(f"🚀 **Traffic Crawler Started** | Save Local: `{SAVE_LOCAL}` | Commit frequency: Every {UPLOAD_EVERY_N_CYCLES} cycles.")
     
     cycle = 1
     consecutive_failed_cycles = 0
+    pending_operations = []  # Danh sách tích lũy các thao tác add file chờ commit
 
     while True:
         ts = datetime.now()
         start_time = time.time()
         failed_count = 0
-        operations = []
+        cycle_staged_count = 0
 
         now_str = ts.strftime("%Y%m%d_%H%M%S")
         logger.info(f"=== [Chu kỳ #{cycle} lúc {ts.strftime('%Y-%m-%d %H:%M:%S')}] ===")
@@ -188,29 +192,34 @@ def main():
             if SAVE_LOCAL:
                 save_image_to_local(cam_id, img_bytes, now_str)
 
-            # 2. Đưa vào danh sách chờ commit batch
+            # 2. Tích lũy vào bộ nhớ đệm pending_operations
             path_in_repo = f"snapshots/{cam_id}/{now_str}.jpg"
-            operations.append(
+            pending_operations.append(
                 CommitOperationAdd(
                     path_in_repo=path_in_repo,
                     path_or_fileobj=img_bytes
                 )
             )
+            cycle_staged_count += 1
             logger.info(f"  [STAGED] [{cam_name}] -> {path_in_repo}")
             time.sleep(0.1)
 
-        # 3. Commit tất cả ảnh trong chu kỳ lên HF chỉ bằng 1 HTTP request
-        success_count = 0
-        if operations:
-            commit_msg = f"Add {len(operations)} snapshots (Cycle #{cycle} - {now_str})"
-            if upload_batch_to_hf(operations, commit_msg):
-                success_count = len(operations)
-                logger.info(f"🚀 [HF COMMIT SUCCESS] Đã đẩy {success_count} ảnh trong 1 commit!")
-            else:
-                failed_count += len(operations)
-
         elapsed = time.time() - start_time
-        logger.info(f"✅ Chu kỳ #{cycle} hoàn tất: {success_count} thành công | {failed_count} thất bại ({elapsed:.1f}s)")
+        logger.info(
+            f"✅ Kết thúc quét chu kỳ #{cycle}: Thêm {cycle_staged_count} ảnh vào hàng chờ | "
+            f"Hàng chờ HF hiện có: {len(pending_operations)} ảnh ({elapsed:.1f}s)"
+        )
+
+        # 3. Đạt số chu kỳ quy định (UPLOAD_EVERY_N_CYCLES) -> Thực hiện 1 commit duy nhất
+        if cycle % UPLOAD_EVERY_N_CYCLES == 0 and pending_operations:
+            commit_msg = f"Add batch of {len(pending_operations)} snapshots (Cycle #{cycle - UPLOAD_EVERY_N_CYCLES + 1} to #{cycle})"
+            logger.info(f"🚀 [HF COMMIT] Đang đẩy {len(pending_operations)} ảnh tích lũy lên Hugging Face...")
+            
+            if upload_batch_to_hf(pending_operations, commit_msg):
+                logger.info(f"🎉 [HF COMMIT SUCCESS] Đã commit thành công {len(pending_operations)} ảnh!")
+                pending_operations.clear()  # Xóa hàng chờ sau khi commit thành công
+            else:
+                logger.error("❌ Commit thất bại! Các ảnh sẽ tiếp tục được giữ lại ở chu kỳ tiếp theo.")
 
         # Xử lý Cảnh Báo Discord
         if failed_count >= MAX_FAILED_PER_CYCLE:
@@ -221,7 +230,7 @@ def main():
                 f"• Thời gian: {ts.strftime('%H:%M:%S %d/%m/%Y')}"
             )
 
-        if success_count == 0:
+        if cycle_staged_count == 0:
             consecutive_failed_cycles += 1
             if consecutive_failed_cycles >= MAX_CONSECUTIVE_FAILS:
                 send_alert(
