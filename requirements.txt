@@ -1,0 +1,9 @@
+# Core scraping & networking
+requests>=2.31.0
+python-dotenv>=1.0.0
+huggingface_hub>=0.23.0
+
+# Data processing (optional for crawler, required for pipeline)
+numpy>=1.24.0
+pandas>=2.0.0
+
