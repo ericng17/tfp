@@ -26,13 +26,14 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "")
 # 3. NGƯỠNG CẢNH BÁO (THRESHOLDS)
 MAX_FAILED_PER_CYCLE = int(os.getenv("MAX_FAILED_PER_CYCLE", 10))
 MAX_CONSECUTIVE_FAILS = int(os.getenv("MAX_CONSECUTIVE_FAILS", 3))
+MAX_PENDING_RAM_IMAGES = int(os.getenv("MAX_PENDING_RAM_IMAGES", 10000))
 
 # 4. HUGGING FACE CONFIG
 HF_TOKEN = os.getenv("HF_TOKEN", "")
 HF_REPO_ID = os.getenv("HF_REPO_ID", "")
 
-# Cấu hình tần suất commit lên HF (12 chu kỳ x 5 phút = 60 phút / 1 commit)
-UPLOAD_EVERY_N_CYCLES = int(os.getenv("UPLOAD_EVERY_N_CYCLES", 12))
+# Cấu hình tần suất commit lên HF (VD: 10 chu kỳ x 5 phút = 50 phút / 1 commit)
+UPLOAD_EVERY_N_CYCLES = int(os.getenv("UPLOAD_EVERY_N_CYCLES", 10))
 
 # 5. CẤU HÌNH MẠNG
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", 10))
@@ -169,6 +170,7 @@ def main():
     cycle = 1
     consecutive_failed_cycles = 0
     pending_operations = []  # Danh sách tích lũy các thao tác add file chờ commit
+    ram_alert_sent = False   # Cờ theo dõi trạng thái đã gửi cảnh báo RAM hay chưa
 
     while True:
         ts = datetime.now()
@@ -218,10 +220,25 @@ def main():
             if upload_batch_to_hf(pending_operations, commit_msg):
                 logger.info(f"🎉 [HF COMMIT SUCCESS] Đã commit thành công {len(pending_operations)} ảnh!")
                 pending_operations.clear()  # Xóa hàng chờ sau khi commit thành công
+                ram_alert_sent = False      # Reset cờ cảnh báo RAM khi bộ nhớ đã được giải phóng
             else:
                 logger.error("❌ Commit thất bại! Các ảnh sẽ tiếp tục được giữ lại ở chu kỳ tiếp theo.")
 
-        # Xử lý Cảnh Báo Discord
+        # 4. KIỂM TRA NGƯỠNG TÍCH LŨY ẢNH TRONG RAM (OOM PREVENTION)
+        pending_count = len(pending_operations)
+        if pending_count >= MAX_PENDING_RAM_IMAGES:
+            if not ram_alert_sent:
+                send_alert(
+                    f"🚨 **CẢNH BÁO BỘ NHỚ RAM (OOM RISK)**\n"
+                    f"• Số lượng ảnh tích lũy trong RAM đã đạt **{pending_count:,}/{MAX_PENDING_RAM_IMAGES:,}** ảnh!\n"
+                    f"• Nguyên nhân: Commit lên Hugging Face thất bại liên tục hoặc chu kỳ upload quá dài.\n"
+                    f"• Thời gian: {ts.strftime('%H:%M:%S %d/%m/%Y')}"
+                )
+                ram_alert_sent = True
+        else:
+            ram_alert_sent = False
+
+        # 5. XỬ LÝ CÁC CẢNH BÁO DISCORD KHÁC
         if failed_count >= MAX_FAILED_PER_CYCLE:
             send_alert(
                 f"⚠️ **CẢNH BÁO CÀO CAMERA FAILED**\n"
