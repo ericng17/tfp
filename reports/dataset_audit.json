@@ -1,0 +1,70 @@
+{
+  "names": [
+    "2-wheel vehicles",
+    "bus",
+    "car",
+    "truck"
+  ],
+  "splits": {
+    "train": {
+      "images": 8485,
+      "boxes": 138284,
+      "class_counts": {
+        "2-wheel vehicles": 89408,
+        "truck": 13535,
+        "car": 31668,
+        "bus": 3673
+      },
+      "empty_labels": 18,
+      "missing_labels": 0,
+      "image_sizes": {
+        "640x640": 8485
+      },
+      "duplicate_label_rows": 5
+    },
+    "val": {
+      "images": 1061,
+      "boxes": 17164,
+      "class_counts": {
+        "2-wheel vehicles": 10932,
+        "car": 4048,
+        "truck": 1736,
+        "bus": 448
+      },
+      "empty_labels": 2,
+      "missing_labels": 0,
+      "image_sizes": {
+        "640x640": 1061
+      },
+      "duplicate_label_rows": 2
+    },
+    "test": {
+      "images": 1061,
+      "boxes": 17752,
+      "class_counts": {
+        "2-wheel vehicles": 11648,
+        "truck": 1659,
+        "car": 3962,
+        "bus": 483
+      },
+      "empty_labels": 2,
+      "missing_labels": 0,
+      "image_sizes": {
+        "640x640": 1061
+      },
+      "duplicate_label_rows": 2
+    }
+  },
+  "errors": [],
+  "warnings": [
+    "train: 5 duplicate annotation rows",
+    "train: 18 empty labels; manually verify background images",
+    "val: 2 duplicate annotation rows",
+    "val: 2 empty labels; manually verify background images",
+    "test: 2 duplicate annotation rows",
+    "test: 2 empty labels; manually verify background images"
+  ],
+  "exact_duplicate_groups": [],
+  "cross_split_duplicates": [],
+  "scope": "Format/integrity only; no semantic label or near-duplicate verification"
+}

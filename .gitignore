@@ -30,3 +30,7 @@ scripts/data/
 scripts/data/
 **/snapshots/
 .env
+# Local fine-tune export; publish separately to Hugging Face
+/finetune_data/
+/HCM Traffic Detection v2.v20i.yolov11.zip
+/src/models
