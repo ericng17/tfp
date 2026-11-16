@@ -1,0 +1,3888 @@
+{
+  "schema_version": 1,
+  "created_on": "2026-11-15",
+  "review_status": "partial_or_draft",
+  "count_rule": "bottom_center_inside_or_on_boundary_of_polygon_union",
+  "coordinate_system": "normalized_xy: x/image_width, y/image_height; original image orientation",
+  "camera_node_aggregation": "union_of_regions; each detection counted at most once",
+  "direction_policy": "regions describe image geometry only; no legal travel direction inferred",
+  "reference_limitation": "One reference snapshot per camera: 27 night snapshots and one daytime snapshot for Hoang Van Thu–Ut Tich. Day/night and viewpoint stability validation pending.",
+  "cameras": [
+    {
+      "index": 1,
+      "camera_id": "56df807bc062921100c143da",
+      "name": "Truong_Chinh_Au_Co",
+      "reference_image": "data/raw/snapshots/56df807bc062921100c143da/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "e00cec19fadc2dd4ef7c1d8200c9187faee1d69bca1641984b526dfda602da69",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "junction",
+          "points_normalized": [
+            [
+              0.007812,
+              0.475694
+            ],
+            [
+              0.226562,
+              0.34375
+            ],
+            [
+              0.478571,
+              0.119224
+            ],
+            [
+              0.546875,
+              0.118056
+            ],
+            [
+              0.6875,
+              0.118056
+            ],
+            [
+              0.695312,
+              0.315972
+            ],
+            [
+              0.779297,
+              0.413194
+            ],
+            [
+              0.990234,
+              0.520833
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0.007812,
+              0.986111
+            ]
+          ],
+          "points_px": [
+            [
+              4,
+              137
+            ],
+            [
+              116,
+              99
+            ],
+            [
+              245.03,
+              34.34
+            ],
+            [
+              280,
+              34
+            ],
+            [
+              352,
+              34
+            ],
+            [
+              356,
+              91
+            ],
+            [
+              399,
+              119
+            ],
+            [
+              507,
+              150
+            ],
+            [
+              512,
+              288
+            ],
+            [
+              4,
+              284
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "Giao lộ rộng; ROI gộp xe trong nút giao và phần tiếp cận đủ rõ, không đại diện một hướng lưu thông duy nhất. Cần ảnh ban ngày kiểm tra ranh vỉa hè hai bên."
+    },
+    {
+      "index": 2,
+      "camera_id": "586e1d4ef9fab7001111b0a2",
+      "name": "Cong_Hoa_Duong_C18",
+      "reference_image": "data/raw/snapshots/586e1d4ef9fab7001111b0a2/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "3b11f036ca33ccaf40c96265d44402220d880f45880176827acebb431165774f",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "carriageway_left",
+          "points_normalized": [
+            [
+              0.151587,
+              0.198236
+            ],
+            [
+              0.249206,
+              0.196825
+            ],
+            [
+              0.6875,
+              0.986111
+            ],
+            [
+              0.076172,
+              0.986111
+            ]
+          ],
+          "points_px": [
+            [
+              77.61,
+              57.09
+            ],
+            [
+              127.59,
+              56.69
+            ],
+            [
+              352,
+              284
+            ],
+            [
+              39,
+              284
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        },
+        {
+          "region_id": "R2",
+          "name": "carriageway_right",
+          "points_normalized": [
+            [
+              0.255556,
+              0.199647
+            ],
+            [
+              0.377778,
+              0.189771
+            ],
+            [
+              0.990234,
+              0.625
+            ],
+            [
+              0.990234,
+              0.986111
+            ],
+            [
+              0.744141,
+              0.986111
+            ],
+            [
+              0.421875,
+              0.482639
+            ]
+          ],
+          "points_px": [
+            [
+              130.84,
+              57.5
+            ],
+            [
+              193.42,
+              54.65
+            ],
+            [
+              507,
+              180
+            ],
+            [
+              507,
+              284
+            ],
+            [
+              381,
+              284
+            ],
+            [
+              216,
+              139
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "Tách hai phần đường qua dải phân cách; loại vùng xa và vỉa hè. Cạnh trên chỉ là ngưỡng quan sát dự thảo, cần xem thêm ảnh ngày/đêm."
+    },
+    {
+      "index": 3,
+      "camera_id": "586e1f18f9fab7001111b0a5",
+      "name": "Cong_Hoa_Truong_Chinh",
+      "reference_image": "data/raw/snapshots/586e1f18f9fab7001111b0a5/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "359b5454b8bd1a381b6f7ab3d36cd5cc36ffb04e92da9d6ee4b023cd07fdb5f2",
+      "review_status": "draft",
+      "confidence": "low",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "carriageway_left",
+          "points_normalized": [
+            [
+              0.005859,
+              0.263889
+            ],
+            [
+              0.164286,
+              0.202469
+            ],
+            [
+              0.652381,
+              0.977072
+            ],
+            [
+              0.007812,
+              0.986111
+            ]
+          ],
+          "points_px": [
+            [
+              3,
+              76
+            ],
+            [
+              84.11,
+              58.31
+            ],
+            [
+              334.02,
+              281.4
+            ],
+            [
+              4,
+              284
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        },
+        {
+          "region_id": "R2",
+          "name": "carriageway_right",
+          "points_normalized": [
+            [
+              0.169841,
+              0.20388
+            ],
+            [
+              0.229365,
+              0.162963
+            ],
+            [
+              0.709524,
+              0.241975
+            ],
+            [
+              0.992857,
+              0.35485
+            ],
+            [
+              0.990234,
+              0.986111
+            ],
+            [
+              0.720703,
+              0.986111
+            ],
+            [
+              0.483333,
+              0.553792
+            ]
+          ],
+          "points_px": [
+            [
+              86.96,
+              58.72
+            ],
+            [
+              117.43,
+              46.93
+            ],
+            [
+              363.28,
+              69.69
+            ],
+            [
+              508.34,
+              102.2
+            ],
+            [
+              507,
+              284
+            ],
+            [
+              369,
+              284
+            ],
+            [
+              247.47,
+              159.49
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "Ảnh đêm tối và lóa đèn, ranh phải khó thấy. Hai ROI nằm hai phía dải phân cách; cần xác nhận lại bằng ảnh sáng trước khi duyệt."
+    },
+    {
+      "index": 4,
+      "camera_id": "586e25e1f9fab7001111b0ae",
+      "name": "Truong_Chinh_Tan_Ky_Tan_Quy",
+      "reference_image": "data/raw/snapshots/586e25e1f9fab7001111b0ae/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "3638834c95363b9d936ba215728fbf1c575a441271f17db03aca51d8ecdaef02",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "junction",
+          "points_normalized": [
+            [
+              0.005859,
+              0.399306
+            ],
+            [
+              0,
+              0.254674
+            ],
+            [
+              0.273438,
+              0.315972
+            ],
+            [
+              0.334127,
+              0.337919
+            ],
+            [
+              0.431746,
+              0.236332
+            ],
+            [
+              0.48254,
+              0.213757
+            ],
+            [
+              0.629365,
+              0.256085
+            ],
+            [
+              0.794444,
+              0.302646
+            ],
+            [
+              0.769531,
+              0.524306
+            ],
+            [
+              0.861328,
+              0.659722
+            ],
+            [
+              0.990234,
+              0.767361
+            ],
+            [
+              0.990234,
+              0.986111
+            ],
+            [
+              0.005859,
+              0.986111
+            ]
+          ],
+          "points_px": [
+            [
+              3,
+              115
+            ],
+            [
+              0,
+              73.35
+            ],
+            [
+              140,
+              91
+            ],
+            [
+              171.07,
+              97.32
+            ],
+            [
+              221.05,
+              68.06
+            ],
+            [
+              247.06,
+              61.56
+            ],
+            [
+              322.23,
+              73.75
+            ],
+            [
+              406.76,
+              87.16
+            ],
+            [
+              394,
+              151
+            ],
+            [
+              441,
+              190
+            ],
+            [
+              507,
+              221
+            ],
+            [
+              507,
+              284
+            ],
+            [
+              3,
+              284
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "ROI nút giao gồm xe đi ngang/chuyển hướng. Loại mặt tiền cửa hàng và nhánh xa; cây/dây điện che một phần phía phải. Chưa gán hướng graph."
+    },
+    {
+      "index": 5,
+      "camera_id": "5874769eb807da0011e33cec",
+      "name": "Cong_Hoa_Ut_Tich2",
+      "reference_image": "data/raw/snapshots/5874769eb807da0011e33cec/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "f5c7b9be05bb92a64ff041795ce8cac9875f024f5afb37941fa46ccaccd466dd",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "visible_road",
+          "points_normalized": [
+            [
+              0.574219,
+              0.232639
+            ],
+            [
+              0.75,
+              0.225694
+            ],
+            [
+              0.783203,
+              0.986111
+            ],
+            [
+              0.021484,
+              0.986111
+            ],
+            [
+              0.267578,
+              0.638889
+            ],
+            [
+              0.488281,
+              0.399306
+            ]
+          ],
+          "points_px": [
+            [
+              294,
+              67
+            ],
+            [
+              384,
+              65
+            ],
+            [
+              401,
+              284
+            ],
+            [
+              11,
+              284
+            ],
+            [
+              137,
+              184
+            ],
+            [
+              250,
+              115
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "Đường hẹp nhìn chéo, một ROI bao phần đường đủ rõ và cả hai phía vạch giữa; không suy ra một chiều từ ảnh. Xe cắt biên dưới tính theo điểm đáy giữa box."
+    },
+    {
+      "index": 6,
+      "camera_id": "587476e3b807da0011e33cee",
+      "name": "Cong_Hoa_Ut_Tich1",
+      "reference_image": "data/raw/snapshots/587476e3b807da0011e33cee/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "7509b5ad462a88bb78b73c5fbf8d6adda7d92a5e3700036459e584cf0a11d467",
+      "review_status": "draft",
+      "confidence": "low",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "road_left_of_island",
+          "points_normalized": [
+            [
+              0.005859,
+              0.819444
+            ],
+            [
+              0.201172,
+              0.708333
+            ],
+            [
+              0.257937,
+              0.556614
+            ],
+            [
+              0.453175,
+              0.529806
+            ],
+            [
+              0.643651,
+              0.47478
+            ],
+            [
+              0.693651,
+              0.605997
+            ],
+            [
+              0.462698,
+              0.771076
+            ],
+            [
+              0.361111,
+              0.854321
+            ],
+            [
+              0.183594,
+              0.986111
+            ],
+            [
+              0.005859,
+              0.986111
+            ]
+          ],
+          "points_px": [
+            [
+              3,
+              236
+            ],
+            [
+              103,
+              204
+            ],
+            [
+              132.06,
+              160.3
+            ],
+            [
+              232.03,
+              152.58
+            ],
+            [
+              329.55,
+              136.74
+            ],
+            [
+              355.15,
+              174.53
+            ],
+            [
+              236.9,
+              222.07
+            ],
+            [
+              184.89,
+              246.04
+            ],
+            [
+              94,
+              284
+            ],
+            [
+              3,
+              284
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        },
+        {
+          "region_id": "R2",
+          "name": "road_right_of_island",
+          "points_normalized": [
+            [
+              0.659524,
+              0.473369
+            ],
+            [
+              0.896484,
+              0.506944
+            ],
+            [
+              1,
+              0.529806
+            ],
+            [
+              1,
+              0.814815
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0.367188,
+              0.986111
+            ],
+            [
+              0.607422,
+              0.770833
+            ],
+            [
+              0.708984,
+              0.642361
+            ]
+          ],
+          "points_px": [
+            [
+              337.68,
+              136.33
+            ],
+            [
+              459,
+              146
+            ],
+            [
+              512,
+              152.58
+            ],
+            [
+              512,
+              234.67
+            ],
+            [
+              512,
+              288
+            ],
+            [
+              188,
+              284
+            ],
+            [
+              311,
+              222
+            ],
+            [
+              363,
+              185
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "Tách hai vùng đường hai bên đảo cây. Dây điện, biển báo/cột và tán cây che một phần ảnh; ranh phức tạp, cần ảnh ban ngày và người dùng xác nhận."
+    },
+    {
+      "index": 7,
+      "camera_id": "58747923b807da0011e33cf5",
+      "name": "Nut_Giao_Bay_Hien2",
+      "reference_image": "data/raw/snapshots/58747923b807da0011e33cf5/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "35334c2f0e8be40da3edc79eaee2a7f1a88b61551f36051f0970a10e0fe9a1e2",
+      "review_status": "draft",
+      "confidence": "low",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "near_approach",
+          "points_normalized": [
+            [
+              0.003968,
+              0.251852
+            ],
+            [
+              0.076984,
+              0.236332
+            ],
+            [
+              0.149206,
+              0.244797
+            ],
+            [
+              0.234127,
+              0.313933
+            ],
+            [
+              0.349206,
+              0.525573
+            ],
+            [
+              0.446032,
+              0.703351
+            ],
+            [
+              0.597619,
+              0.998236
+            ],
+            [
+              0,
+              0.999647
+            ]
+          ],
+          "points_px": [
+            [
+              2.03,
+              72.53
+            ],
+            [
+              39.42,
+              68.06
+            ],
+            [
+              76.39,
+              70.5
+            ],
+            [
+              119.87,
+              90.41
+            ],
+            [
+              178.79,
+              151.37
+            ],
+            [
+              228.37,
+              202.57
+            ],
+            [
+              305.98,
+              287.49
+            ],
+            [
+              0,
+              287.9
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        },
+        {
+          "region_id": "R2",
+          "name": "road_right_of_barrier",
+          "points_normalized": [
+            [
+              0.234127,
+              0.281482
+            ],
+            [
+              0.361905,
+              0.251852
+            ],
+            [
+              0.988281,
+              0.347222
+            ],
+            [
+              0.990234,
+              0.986111
+            ],
+            [
+              0.606349,
+              0.982716
+            ]
+          ],
+          "points_px": [
+            [
+              119.87,
+              81.07
+            ],
+            [
+              185.3,
+              72.53
+            ],
+            [
+              506,
+              100
+            ],
+            [
+              507,
+              284
+            ],
+            [
+              310.45,
+              283.02
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "Tách tiếp cận gần và vùng đường phải rào; bỏ đảo giao thông và nhánh xa chói sáng. Kết nối hình học không khẳng định hướng đi thực tế."
+    },
+    {
+      "index": 8,
+      "camera_id": "587c8183b807da0011e33d3f",
+      "name": "Hoang_Van_Thu_Tran_Quoc_Hoan",
+      "reference_image": "data/raw/snapshots/587c8183b807da0011e33d3f/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "700647227458a89879ef98aef4fbbf2dc2a09770c7ba144db51b1093065c8ef9",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "junction_excluding_island",
+          "points_normalized": [
+            [
+              0,
+              0.385891
+            ],
+            [
+              0.155556,
+              0.344974
+            ],
+            [
+              0.357422,
+              0.524306
+            ],
+            [
+              0.53125,
+              0.364583
+            ],
+            [
+              0.71875,
+              0.34375
+            ],
+            [
+              0.810317,
+              0.392945
+            ],
+            [
+              0.844444,
+              0.631393
+            ],
+            [
+              0.87619,
+              0.797884
+            ],
+            [
+              0.940476,
+              1
+            ],
+            [
+              0.007812,
+              0.986111
+            ],
+            [
+              0.004762,
+              0.806349
+            ],
+            [
+              0.053968,
+              0.665256
+            ],
+            [
+              0.051587,
+              0.536861
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              111.14
+            ],
+            [
+              79.64,
+              99.35
+            ],
+            [
+              183,
+              151
+            ],
+            [
+              272,
+              105
+            ],
+            [
+              368,
+              99
+            ],
+            [
+              414.88,
+              113.17
+            ],
+            [
+              432.36,
+              181.84
+            ],
+            [
+              448.61,
+              229.79
+            ],
+            [
+              481.52,
+              288
+            ],
+            [
+              4,
+              284
+            ],
+            [
+              2.44,
+              232.23
+            ],
+            [
+              27.63,
+              191.59
+            ],
+            [
+              26.41,
+              154.62
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "Một đa giác lõm loại đảo cây tam giác; gộp phần giao lộ gần, không gán hướng. Tán cây che mép trái/phải nên ROI giữ vào trong phần đường nhìn thấy."
+    },
+    {
+      "index": 9,
+      "camera_id": "587c8661b807da0011e33d43",
+      "name": "Le_Van_Si_Hoang_Van_Thu",
+      "reference_image": "data/raw/snapshots/587c8661b807da0011e33d43/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "94eba155ef94cd53397f87e759c50283b4c4559b3c73519982ff5c43000684a1",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "junction",
+          "points_normalized": [
+            [
+              0.115079,
+              0.160141
+            ],
+            [
+              0.298828,
+              0.222222
+            ],
+            [
+              0.610317,
+              0.186949
+            ],
+            [
+              0.757937,
+              0.253263
+            ],
+            [
+              0.938095,
+              0.285714
+            ],
+            [
+              0.999206,
+              0.3097
+            ],
+            [
+              0.990234,
+              0.986111
+            ],
+            [
+              0.007812,
+              0.986111
+            ],
+            [
+              0.007812,
+              0.472222
+            ],
+            [
+              0.111328,
+              0.385417
+            ]
+          ],
+          "points_px": [
+            [
+              58.92,
+              46.12
+            ],
+            [
+              153,
+              64
+            ],
+            [
+              312.48,
+              53.84
+            ],
+            [
+              388.06,
+              72.94
+            ],
+            [
+              480.3,
+              82.29
+            ],
+            [
+              511.59,
+              89.19
+            ],
+            [
+              507,
+              284
+            ],
+            [
+              4,
+              284
+            ],
+            [
+              4,
+              136
+            ],
+            [
+              57,
+              111
+            ]
+          ],
+          "direction_note": "Vùng hình học dự thảo; chưa xác nhận hướng lưu thông từ một ảnh đêm."
+        }
+      ],
+      "note": "ROI giao lộ gần bao cả xe đi thẳng và rẽ; loại mặt tiền/vỉa hè và đường quá xa. Nếu graph cần một hướng thì phải tách lại ROI."
+    },
+    {
+      "index": 10,
+      "camera_id": "58ad6214bd82540010390be2",
+      "name": "Cong_Hoa_Hoang_Hoa_Tham",
+      "reference_image": "data/raw/snapshots/58ad6214bd82540010390be2/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "9bd92a3aac63e5943592a8842121ca17e967decab7d39f6a101eec94236e7c4c",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "carriageway",
+          "points_normalized": [
+            [
+              0.130859,
+              1
+            ],
+            [
+              0.191406,
+              0.659722
+            ],
+            [
+              0.2,
+              0.501587
+            ],
+            [
+              0.220635,
+              0.27866
+            ],
+            [
+              0.292969,
+              0.267361
+            ],
+            [
+              0.359375,
+              0.260417
+            ],
+            [
+              0.404297,
+              0.413194
+            ],
+            [
+              0.496094,
+              0.666667
+            ],
+            [
+              0.617188,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              67,
+              288
+            ],
+            [
+              98,
+              190
+            ],
+            [
+              102.4,
+              144.46
+            ],
+            [
+              112.97,
+              80.25
+            ],
+            [
+              150,
+              77
+            ],
+            [
+              184,
+              75
+            ],
+            [
+              207,
+              119
+            ],
+            [
+              254,
+              192
+            ],
+            [
+              316,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        }
+      ],
+      "note": "Phần đường gần và trung cảnh; loại vỉa hè phải và cây bên trái. Một vùng gộp, chưa xác nhận chiều xe theo biển báo."
+    },
+    {
+      "index": 11,
+      "camera_id": "59414c883dcfc400106f260b",
+      "name": "Cong_Hoa_Binh_Gia",
+      "reference_image": "data/raw/snapshots/59414c883dcfc400106f260b/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "22f50e004812877aa8d894d0433ed7e674a6b0302b780f4c45e4030cffc8f0b9",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "near_carriageway",
+          "points_normalized": [
+            [
+              0,
+              0.555556
+            ],
+            [
+              0.263672,
+              0.423611
+            ],
+            [
+              0.523438,
+              0.288194
+            ],
+            [
+              0.734375,
+              0.15625
+            ],
+            [
+              0.759766,
+              0.15625
+            ],
+            [
+              0.542969,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              160
+            ],
+            [
+              135,
+              122
+            ],
+            [
+              268,
+              83
+            ],
+            [
+              376,
+              45
+            ],
+            [
+              389,
+              45
+            ],
+            [
+              278,
+              288
+            ],
+            [
+              0,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        },
+        {
+          "region_id": "R2",
+          "name": "far_side_carriageway",
+          "points_normalized": [
+            [
+              0.783203,
+              0.166667
+            ],
+            [
+              0.814453,
+              0.208333
+            ],
+            [
+              0.857937,
+              0.514286
+            ],
+            [
+              0.915873,
+              1
+            ],
+            [
+              0.553175,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              401,
+              48
+            ],
+            [
+              417,
+              60
+            ],
+            [
+              439.26,
+              148.11
+            ],
+            [
+              468.93,
+              288
+            ],
+            [
+              283.23,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        }
+      ],
+      "note": "Hai phía dải phân cách. Vùng phải dừng trước thiết bị camera/cột che tiền cảnh; cần ảnh ngày để kiểm tra mép vỉa hè và hướng đường."
+    },
+    {
+      "index": 12,
+      "camera_id": "5d8cdb0a766c880017188964",
+      "name": "Truong_Chinh_Xuan_Hong",
+      "reference_image": "data/raw/snapshots/5d8cdb0a766c880017188964/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "7311bcd39ba30ce5e566e432a1780fefb09adfe0fae34d737fd1c6ada94db0c2",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "left_of_barrier",
+          "points_normalized": [
+            [
+              0,
+              0.347222
+            ],
+            [
+              0.060547,
+              0.263889
+            ],
+            [
+              0.150794,
+              0.247619
+            ],
+            [
+              0.299206,
+              0.199647
+            ],
+            [
+              0.484375,
+              0.305556
+            ],
+            [
+              0.480469,
+              0.506944
+            ],
+            [
+              0.410156,
+              0.673611
+            ],
+            [
+              0.353516,
+              0.8125
+            ],
+            [
+              0.205078,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              100
+            ],
+            [
+              31,
+              76
+            ],
+            [
+              77.21,
+              71.31
+            ],
+            [
+              153.19,
+              57.5
+            ],
+            [
+              248,
+              88
+            ],
+            [
+              246,
+              146
+            ],
+            [
+              210,
+              194
+            ],
+            [
+              181,
+              234
+            ],
+            [
+              105,
+              288
+            ],
+            [
+              0,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        },
+        {
+          "region_id": "R2",
+          "name": "right_of_barrier",
+          "points_normalized": [
+            [
+              0.523016,
+              0.270194
+            ],
+            [
+              0.62619,
+              0.273016
+            ],
+            [
+              0.657143,
+              0.402822
+            ],
+            [
+              0.779365,
+              0.463492
+            ],
+            [
+              1,
+              0.497355
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0.242188,
+              1
+            ],
+            [
+              0.388672,
+              0.819444
+            ],
+            [
+              0.445312,
+              0.65625
+            ],
+            [
+              0.503906,
+              0.517361
+            ]
+          ],
+          "points_px": [
+            [
+              267.78,
+              77.82
+            ],
+            [
+              320.61,
+              78.63
+            ],
+            [
+              336.46,
+              116.01
+            ],
+            [
+              399.03,
+              133.49
+            ],
+            [
+              512,
+              143.24
+            ],
+            [
+              512,
+              288
+            ],
+            [
+              124,
+              288
+            ],
+            [
+              199,
+              236
+            ],
+            [
+              228,
+              189
+            ],
+            [
+              258,
+              149
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        }
+      ],
+      "note": "Chia hai phía rào chắn công trường, loại đường chân trời lóa và vùng vỉa hè bên phải trên ảnh. Không suy ra chiều lưu thông từ một frame."
+    },
+    {
+      "index": 13,
+      "camera_id": "5d8cdbdc766c88001718896a",
+      "name": "Hoang_Van_Thu_Cong_Hoa",
+      "reference_image": "data/raw/snapshots/5d8cdbdc766c88001718896a/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "0d8b003a9211dd14b94f8767e9ae196700ed04b880b9e048b151e27b996c8b99",
+      "review_status": "draft",
+      "confidence": "low",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "foreground_turning_area",
+          "points_normalized": [
+            [
+              0,
+              0.326631
+            ],
+            [
+              0.099206,
+              0.349206
+            ],
+            [
+              0.339844,
+              0.513889
+            ],
+            [
+              0.447266,
+              0.576389
+            ],
+            [
+              0.429688,
+              0.649306
+            ],
+            [
+              0.462891,
+              0.753472
+            ],
+            [
+              0.564453,
+              0.829861
+            ],
+            [
+              0.765625,
+              0.927083
+            ],
+            [
+              0.851562,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              94.07
+            ],
+            [
+              50.79,
+              100.57
+            ],
+            [
+              174,
+              148
+            ],
+            [
+              229,
+              166
+            ],
+            [
+              220,
+              187
+            ],
+            [
+              237,
+              217
+            ],
+            [
+              289,
+              239
+            ],
+            [
+              392,
+              267
+            ],
+            [
+              436,
+              288
+            ],
+            [
+              0,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        },
+        {
+          "region_id": "R2",
+          "name": "across_roundabout",
+          "points_normalized": [
+            [
+              0.114286,
+              0.350617
+            ],
+            [
+              0.192857,
+              0.332275
+            ],
+            [
+              0.528571,
+              0.37037
+            ],
+            [
+              0.635714,
+              0.392945
+            ],
+            [
+              0.822222,
+              0.409877
+            ],
+            [
+              0.938889,
+              0.593298
+            ],
+            [
+              0.740234,
+              0.572917
+            ],
+            [
+              0.552734,
+              0.572917
+            ],
+            [
+              0.458984,
+              0.576389
+            ],
+            [
+              0.359375,
+              0.510417
+            ]
+          ],
+          "points_px": [
+            [
+              58.51,
+              100.98
+            ],
+            [
+              98.74,
+              95.7
+            ],
+            [
+              270.63,
+              106.67
+            ],
+            [
+              325.49,
+              113.17
+            ],
+            [
+              420.98,
+              118.04
+            ],
+            [
+              480.71,
+              170.87
+            ],
+            [
+              379,
+              165
+            ],
+            [
+              283,
+              165
+            ],
+            [
+              235,
+              166
+            ],
+            [
+              184,
+              147
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        }
+      ],
+      "note": "Loại đảo cây/đài trang trí lớn bên phải. Chỉ giữ dải mặt đường quan sát được quanh đảo; vùng tối cần kiểm tra bằng ảnh ngày. Biên hai vùng sát nhau, cộng theo union thay vì cộng box hai lần."
+    },
+    {
+      "index": 14,
+      "camera_id": "5d8cdc57766c88001718896e",
+      "name": "Ly_Thuong_Kiet_Lac_Long_Quan",
+      "reference_image": "data/raw/snapshots/5d8cdc57766c88001718896e/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "183054c2904bf9dcd56a7d48b813e351ebd67462219048b0f16f0481e9aaf449",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "near_junction",
+          "points_normalized": [
+            [
+              0,
+              0.496528
+            ],
+            [
+              0.4,
+              0.425397
+            ],
+            [
+              0.44127,
+              0.44515
+            ],
+            [
+              0.55,
+              0.440917
+            ],
+            [
+              0.656349,
+              0.432452
+            ],
+            [
+              0.742188,
+              0.496528
+            ],
+            [
+              0.833984,
+              0.600694
+            ],
+            [
+              0.923828,
+              0.8125
+            ],
+            [
+              0.970703,
+              1
+            ],
+            [
+              0.613281,
+              1
+            ],
+            [
+              0.625,
+              0.881944
+            ],
+            [
+              0.357422,
+              0.857639
+            ],
+            [
+              0.333333,
+              0.862787
+            ],
+            [
+              0.310547,
+              0.864583
+            ],
+            [
+              0.296875,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              143
+            ],
+            [
+              204.8,
+              122.51
+            ],
+            [
+              225.93,
+              128.2
+            ],
+            [
+              281.6,
+              126.98
+            ],
+            [
+              336.05,
+              124.55
+            ],
+            [
+              380,
+              143
+            ],
+            [
+              427,
+              173
+            ],
+            [
+              473,
+              234
+            ],
+            [
+              497,
+              288
+            ],
+            [
+              314,
+              288
+            ],
+            [
+              320,
+              254
+            ],
+            [
+              183,
+              247
+            ],
+            [
+              170.67,
+              248.48
+            ],
+            [
+              159,
+              249
+            ],
+            [
+              152,
+              288
+            ],
+            [
+              0,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        },
+        {
+          "region_id": "R2",
+          "name": "left_approach",
+          "points_normalized": [
+            [
+              0.053175,
+              0.416931
+            ],
+            [
+              0.107143,
+              0.350617
+            ],
+            [
+              0.184921,
+              0.241975
+            ],
+            [
+              0.300781,
+              0.239583
+            ],
+            [
+              0.438889,
+              0.220811
+            ],
+            [
+              0.509524,
+              0.316755
+            ],
+            [
+              0.428571,
+              0.412698
+            ],
+            [
+              0.292969,
+              0.444444
+            ],
+            [
+              0,
+              0.482639
+            ]
+          ],
+          "points_px": [
+            [
+              27.23,
+              120.08
+            ],
+            [
+              54.86,
+              100.98
+            ],
+            [
+              94.68,
+              69.69
+            ],
+            [
+              154,
+              69
+            ],
+            [
+              224.71,
+              63.59
+            ],
+            [
+              260.88,
+              91.23
+            ],
+            [
+              219.43,
+              118.86
+            ],
+            [
+              150,
+              128
+            ],
+            [
+              0,
+              139
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        },
+        {
+          "region_id": "R3",
+          "name": "right_approach",
+          "points_normalized": [
+            [
+              0.542857,
+              0.333686
+            ],
+            [
+              0.454762,
+              0.223633
+            ],
+            [
+              0.67381,
+              0.194004
+            ],
+            [
+              0.779297,
+              0.197917
+            ],
+            [
+              0.921875,
+              0.177083
+            ],
+            [
+              0.970703,
+              0.222222
+            ],
+            [
+              1,
+              0.291667
+            ],
+            [
+              1,
+              0.984127
+            ],
+            [
+              0.864286,
+              0.638448
+            ],
+            [
+              0.816667,
+              0.565079
+            ],
+            [
+              0.753906,
+              0.482639
+            ],
+            [
+              0.673828,
+              0.454861
+            ]
+          ],
+          "points_px": [
+            [
+              277.94,
+              96.1
+            ],
+            [
+              232.84,
+              64.41
+            ],
+            [
+              344.99,
+              55.87
+            ],
+            [
+              399,
+              57
+            ],
+            [
+              472,
+              51
+            ],
+            [
+              497,
+              64
+            ],
+            [
+              512,
+              84
+            ],
+            [
+              512,
+              283.43
+            ],
+            [
+              442.51,
+              183.87
+            ],
+            [
+              418.13,
+              162.74
+            ],
+            [
+              386,
+              139
+            ],
+            [
+              345,
+              131
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        }
+      ],
+      "note": "Ba vùng tránh đảo tròn ở giữa và đảo giao thông tiền cảnh. Có nhiều hướng tại nút giao; không coi mỗi vùng là lane có hướng xác định. Ranh giới gần xe bus và quanh đảo cần duyệt."
+    },
+    {
+      "index": 15,
+      "camera_id": "5deb576d1dc17d7c5515ad08",
+      "name": "Cong_Hoa_Tan_Ky_Tan_Quy",
+      "reference_image": "data/raw/snapshots/5deb576d1dc17d7c5515ad08/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "24befb1e3fddb06acbd73eecf522892061c30a647ff73c556579a4d13e8f6ee5",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "whole_visible_road",
+          "points_normalized": [
+            [
+              0,
+              0.46875
+            ],
+            [
+              0.09375,
+              0.368056
+            ],
+            [
+              0.191406,
+              0.284722
+            ],
+            [
+              0.275391,
+              0.236111
+            ],
+            [
+              0.547619,
+              0.217989
+            ],
+            [
+              0.65873,
+              0.209524
+            ],
+            [
+              0.759524,
+              0.367549
+            ],
+            [
+              0.849206,
+              0.491711
+            ],
+            [
+              1,
+              0.604167
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              135
+            ],
+            [
+              48,
+              106
+            ],
+            [
+              98,
+              82
+            ],
+            [
+              141,
+              68
+            ],
+            [
+              280.38,
+              62.78
+            ],
+            [
+              337.27,
+              60.34
+            ],
+            [
+              388.88,
+              105.85
+            ],
+            [
+              434.79,
+              141.61
+            ],
+            [
+              512,
+              174
+            ],
+            [
+              512,
+              288
+            ],
+            [
+              0,
+              288
+            ]
+          ],
+          "direction_note": "Gộp mặt đường nhìn thấy vì không có dải phân cách vật lý; chưa xác nhận hướng lưu thông."
+        }
+      ],
+      "note": "Một ROI gộp mặt đường gần/trung cảnh, không chừa khe nhân tạo theo tim đường để tránh bỏ xe chuyển làn. Loại đoàn xe nhỏ phía rất xa. Node đại diện tổng phương tiện quan sát được trong vùng, chưa tách chiều."
+    },
+    {
+      "index": 16,
+      "camera_id": "5deb576d1dc17d7c5515ad09",
+      "name": "Truong_Chinh_Hoang_Hoa_Tham",
+      "reference_image": "data/raw/snapshots/5deb576d1dc17d7c5515ad09/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "e728133b634b019fb73aa9d5d4f138030e2681f13b2cf8fdbdb733227e41e98b",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "near_junction",
+          "points_normalized": [
+            [
+              0,
+              0.354167
+            ],
+            [
+              0.136719,
+              0.315972
+            ],
+            [
+              0.236328,
+              0.295139
+            ],
+            [
+              0.375,
+              0.267361
+            ],
+            [
+              0.447266,
+              0.256944
+            ],
+            [
+              0.490476,
+              0.226455
+            ],
+            [
+              0.596032,
+              0.154497
+            ],
+            [
+              0.794444,
+              0.179894
+            ],
+            [
+              0.947619,
+              0.239153
+            ],
+            [
+              0.958984,
+              0.503472
+            ],
+            [
+              0.976562,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              102
+            ],
+            [
+              70,
+              91
+            ],
+            [
+              121,
+              85
+            ],
+            [
+              192,
+              77
+            ],
+            [
+              229,
+              74
+            ],
+            [
+              251.12,
+              65.22
+            ],
+            [
+              305.17,
+              44.5
+            ],
+            [
+              406.76,
+              51.81
+            ],
+            [
+              485.18,
+              68.88
+            ],
+            [
+              491,
+              145
+            ],
+            [
+              500,
+              288
+            ],
+            [
+              0,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        }
+      ],
+      "note": "Giữ phần nút giao gần/trung cảnh; loại vùng xa lóa, dải phân cách phía trên phải và vỉa hè. ROI gồm nhiều chuyển động tại giao lộ, cần xác nhận phù hợp định nghĩa node."
+    },
+    {
+      "index": 17,
+      "camera_id": "5deb576d1dc17d7c5515ad0a",
+      "name": "Hoang_Van_Thu_Xuan_Dieu",
+      "reference_image": "data/raw/snapshots/5deb576d1dc17d7c5515ad0a/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "0019c21b084ed38147bf74f500719c99233460393bd0be196a977fea8ad1927a",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "left_of_median",
+          "points_normalized": [
+            [
+              0.015625,
+              1
+            ],
+            [
+              0.153968,
+              0.738624
+            ],
+            [
+              0.230952,
+              0.552381
+            ],
+            [
+              0.296032,
+              0.423986
+            ],
+            [
+              0.330952,
+              0.332275
+            ],
+            [
+              0.409524,
+              0.329453
+            ],
+            [
+              0.507143,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              8,
+              288
+            ],
+            [
+              78.83,
+              212.72
+            ],
+            [
+              118.25,
+              159.09
+            ],
+            [
+              151.57,
+              122.11
+            ],
+            [
+              169.45,
+              95.7
+            ],
+            [
+              209.68,
+              94.88
+            ],
+            [
+              259.66,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        },
+        {
+          "region_id": "R2",
+          "name": "right_of_median",
+          "points_normalized": [
+            [
+              0.412109,
+              0.315972
+            ],
+            [
+              0.484921,
+              0.318166
+            ],
+            [
+              0.548828,
+              0.423611
+            ],
+            [
+              0.6875,
+              0.586806
+            ],
+            [
+              0.876953,
+              0.84375
+            ],
+            [
+              0.958984,
+              1
+            ],
+            [
+              0.521484,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              211,
+              91
+            ],
+            [
+              248.28,
+              91.63
+            ],
+            [
+              281,
+              122
+            ],
+            [
+              352,
+              169
+            ],
+            [
+              449,
+              243
+            ],
+            [
+              491,
+              288
+            ],
+            [
+              267,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        }
+      ],
+      "note": "Hai phần đường theo dải phân cách. Không lấy đường chân trời lóa đèn; phải kiểm tra mép đường trái bằng ảnh ngày. Xe lớn che xe nhỏ là giới hạn quan sát, không đổi ROI theo từng frame."
+    },
+    {
+      "index": 18,
+      "camera_id": "662b57471afb9c00172d9095",
+      "name": "Cong_Hoa_Ap_Bac",
+      "reference_image": "data/raw/snapshots/662b57471afb9c00172d9095/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "f8f283a018b227be47196b3bee619c59b90d2a74f33501754cc67dd02a6d3eb8",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "near_left_road",
+          "points_normalized": [
+            [
+              0,
+              0.425397
+            ],
+            [
+              0.175397,
+              0.3097
+            ],
+            [
+              0.303175,
+              0.251852
+            ],
+            [
+              0.421429,
+              0.2194
+            ],
+            [
+              0.47619,
+              0.225044
+            ],
+            [
+              0.559524,
+              0.253263
+            ],
+            [
+              0.627778,
+              0.263139
+            ],
+            [
+              0.661905,
+              0.274427
+            ],
+            [
+              0.568359,
+              0.458333
+            ],
+            [
+              0.551587,
+              0.480423
+            ],
+            [
+              0.529297,
+              0.569444
+            ],
+            [
+              0.212891,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              122.51
+            ],
+            [
+              89.8,
+              89.19
+            ],
+            [
+              155.23,
+              72.53
+            ],
+            [
+              215.77,
+              63.19
+            ],
+            [
+              243.81,
+              64.81
+            ],
+            [
+              286.48,
+              72.94
+            ],
+            [
+              321.42,
+              75.78
+            ],
+            [
+              338.9,
+              79.03
+            ],
+            [
+              291,
+              132
+            ],
+            [
+              282.41,
+              138.36
+            ],
+            [
+              271,
+              164
+            ],
+            [
+              109,
+              288
+            ],
+            [
+              0,
+              288
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        },
+        {
+          "region_id": "R2",
+          "name": "near_right_road",
+          "points_normalized": [
+            [
+              0.671875,
+              0.284722
+            ],
+            [
+              0.742857,
+              0.178483
+            ],
+            [
+              0.851587,
+              0.202469
+            ],
+            [
+              0.810547,
+              0.475694
+            ],
+            [
+              0.785156,
+              0.611111
+            ],
+            [
+              0.794922,
+              0.822917
+            ],
+            [
+              0.78125,
+              1
+            ],
+            [
+              0.279297,
+              1
+            ],
+            [
+              0.552734,
+              0.604167
+            ],
+            [
+              0.560547,
+              0.496528
+            ],
+            [
+              0.597656,
+              0.413194
+            ]
+          ],
+          "points_px": [
+            [
+              344,
+              82
+            ],
+            [
+              380.34,
+              51.4
+            ],
+            [
+              436.01,
+              58.31
+            ],
+            [
+              415,
+              137
+            ],
+            [
+              402,
+              176
+            ],
+            [
+              407,
+              237
+            ],
+            [
+              400,
+              288
+            ],
+            [
+              143,
+              288
+            ],
+            [
+              283,
+              174
+            ],
+            [
+              287,
+              143
+            ],
+            [
+              306,
+              119
+            ]
+          ],
+          "direction_note": "Vùng hình học theo ảnh; chưa xác nhận hướng giao thông thực tế."
+        }
+      ],
+      "note": "Hai vùng phần đường gần, loại dải phân cách, cây che bên phải và dải xe xa phía trên. Giới hạn quan sát không bao phủ toàn bộ giao lộ; kiểm tra lại các nhánh sau khi có ảnh ngày."
+    },
+    {
+      "index": 19,
+      "camera_id": "662b57711afb9c00172d90a7",
+      "name": "Cong_Hoa_Duong_C4",
+      "reference_image": "data/raw/snapshots/662b57711afb9c00172d90a7/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "c33de0b5fa903b2627a9e730ca237ad8fc24bac6703596610ccf502196b3b6e9",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "phan_duong_trai",
+          "points_normalized": [
+            [
+              0.089844,
+              0.302083
+            ],
+            [
+              0.215079,
+              0.2194
+            ],
+            [
+              0.773438,
+              0.979167
+            ],
+            [
+              0.03125,
+              0.979167
+            ],
+            [
+              0.039062,
+              0.604167
+            ]
+          ],
+          "points_px": [
+            [
+              46,
+              87
+            ],
+            [
+              110.12,
+              63.19
+            ],
+            [
+              396,
+              282
+            ],
+            [
+              16,
+              282
+            ],
+            [
+              20,
+              174
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        },
+        {
+          "region_id": "R2",
+          "name": "phan_duong_phai",
+          "points_normalized": [
+            [
+              0.271429,
+              0.277249
+            ],
+            [
+              0.415873,
+              0.237743
+            ],
+            [
+              0.995238,
+              0.510053
+            ],
+            [
+              0.990234,
+              0.979167
+            ],
+            [
+              0.814286,
+              0.991182
+            ],
+            [
+              0.543651,
+              0.620106
+            ]
+          ],
+          "points_px": [
+            [
+              138.97,
+              79.85
+            ],
+            [
+              212.93,
+              68.47
+            ],
+            [
+              509.56,
+              146.9
+            ],
+            [
+              507,
+              282
+            ],
+            [
+              416.91,
+              285.46
+            ],
+            [
+              278.35,
+              178.59
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Tên trên ảnh là Cộng Hòa - Đường A4, trong danh sách là C4; cần xác nhận metadata. Loại vùng xa phía trên và dải phân cách; ảnh có đốm lóa/mờ bên trái. Lưu ý metadata: tên crawler ghi Đường C4 nhưng chữ trên ảnh ghi Đường A4; giữ camera ID làm định danh."
+    },
+    {
+      "index": 20,
+      "camera_id": "662b58401afb9c00172d90f5",
+      "name": "Hoang_Van_Thu_Bui_Thi_Xuan",
+      "reference_image": "data/raw/snapshots/662b58401afb9c00172d90f5/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "241d002152cd72a837720f871eea9c25cdf25a1ccbd008a15b512ed7fd04afeb",
+      "review_status": "draft",
+      "confidence": "low",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "duong_mat_dat",
+          "points_normalized": [
+            [
+              0,
+              0.267372
+            ],
+            [
+              0.210317,
+              0.280071
+            ],
+            [
+              0.291016,
+              0.416667
+            ],
+            [
+              0.420635,
+              0.70194
+            ],
+            [
+              0.525397,
+              0.979894
+            ],
+            [
+              0.105469,
+              0.982639
+            ]
+          ],
+          "points_px": [
+            [
+              0,
+              77
+            ],
+            [
+              107.68,
+              80.66
+            ],
+            [
+              149,
+              120
+            ],
+            [
+              215.37,
+              202.16
+            ],
+            [
+              269,
+              282.21
+            ],
+            [
+              54,
+              283
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        },
+        {
+          "region_id": "R2",
+          "name": "mat_duong_cau_vuot",
+          "points_normalized": [
+            [
+              0.281746,
+              0.148854
+            ],
+            [
+              0.360317,
+              0.072663
+            ],
+            [
+              0.996032,
+              0.298413
+            ],
+            [
+              0.977778,
+              0.876896
+            ],
+            [
+              0.469841,
+              0.366138
+            ]
+          ],
+          "points_px": [
+            [
+              144.25,
+              42.87
+            ],
+            [
+              184.48,
+              20.93
+            ],
+            [
+              509.97,
+              85.94
+            ],
+            [
+              500.62,
+              252.55
+            ],
+            [
+              240.56,
+              105.45
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Hai tầng đường khác nhau: mặt đất và cầu vượt. Cần quyết định tách thành hai tín hiệu hoặc tổng hai ROI; lan can che chân xe trên cầu làm quy tắc đáy box kém ổn định."
+    },
+    {
+      "index": 21,
+      "camera_id": "662b58791afb9c00172d9107",
+      "name": "225_Hoang_Van_Thu",
+      "reference_image": "data/raw/snapshots/662b58791afb9c00172d9107/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "620e552d542c18670a937297f67af04ac318ba8d3a1df5a4f8690d9cfba523ad",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "long_duong_quan_sat",
+          "points_normalized": [
+            [
+              0.157143,
+              0.281482
+            ],
+            [
+              0.434127,
+              0.239153
+            ],
+            [
+              0.992188,
+              0.565972
+            ],
+            [
+              0.992188,
+              0.982639
+            ],
+            [
+              0.154297,
+              0.982639
+            ],
+            [
+              0.168254,
+              0.71746
+            ],
+            [
+              0.11746,
+              0.449383
+            ]
+          ],
+          "points_px": [
+            [
+              80.46,
+              81.07
+            ],
+            [
+              222.27,
+              68.88
+            ],
+            [
+              508,
+              163
+            ],
+            [
+              508,
+              283
+            ],
+            [
+              79,
+              283
+            ],
+            [
+              86.15,
+              206.63
+            ],
+            [
+              60.14,
+              129.42
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Ảnh ghi Hoàng Văn Thụ - Số 255, tên cấu hình 225_Hoang_Van_Thu. Bỏ vùng xa và thân cây/vỉa hè bên trái; cành cây vẫn che một phần ảnh. Lưu ý metadata: tên crawler ghi 225 nhưng chữ trên ảnh ghi Số 255 Hoàng Văn Thụ; giữ camera ID làm định danh."
+    },
+    {
+      "index": 22,
+      "camera_id": "662b5a401afb9c00172d91fc",
+      "name": "Truong_Chinh_Nguyen_Hong_Dao",
+      "reference_image": "data/raw/snapshots/662b5a401afb9c00172d91fc/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "e12bd896383f1442f8dec19c93f12d0a2abf7c16522b3b984438a4a53078f028",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "phan_duong_trai",
+          "points_normalized": [
+            [
+              0.009766,
+              0.392361
+            ],
+            [
+              0.451172,
+              0.315972
+            ],
+            [
+              0.738889,
+              0.198236
+            ],
+            [
+              0.852381,
+              0.217989
+            ],
+            [
+              0.55,
+              0.718871
+            ],
+            [
+              0.347619,
+              1
+            ],
+            [
+              0.009766,
+              0.982639
+            ]
+          ],
+          "points_px": [
+            [
+              5,
+              113
+            ],
+            [
+              231,
+              91
+            ],
+            [
+              378.31,
+              57.09
+            ],
+            [
+              436.42,
+              62.78
+            ],
+            [
+              281.6,
+              207.03
+            ],
+            [
+              177.98,
+              288
+            ],
+            [
+              5,
+              283
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        },
+        {
+          "region_id": "R2",
+          "name": "phan_duong_phai",
+          "points_normalized": [
+            [
+              0.895238,
+              0.202469
+            ],
+            [
+              1,
+              0.212346
+            ],
+            [
+              0.992188,
+              0.982639
+            ],
+            [
+              0.517578,
+              0.982639
+            ],
+            [
+              0.708984,
+              0.597222
+            ]
+          ],
+          "points_px": [
+            [
+              458.36,
+              58.31
+            ],
+            [
+              512,
+              61.16
+            ],
+            [
+              508,
+              283
+            ],
+            [
+              265,
+              283
+            ],
+            [
+              363,
+              172
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Tách hai phần đường theo dải phân cách chéo. Phần xa chỉ lấy tới khu vực xe còn phân biệt được; cần xem ban ngày để chốt mép trái sát công trình."
+    },
+    {
+      "index": 23,
+      "camera_id": "662b5a9c1afb9c00172d9240",
+      "name": "Truong_Chinh_Nguyen_Thai_Binh",
+      "reference_image": "data/raw/snapshots/662b5a9c1afb9c00172d9240/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "e14a78a73fb1a03d9714b253d02c390c7fc660b5c0eebbaff552138e29cccfb9",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "phan_duong_trai",
+          "points_normalized": [
+            [
+              0.313492,
+              0.201058
+            ],
+            [
+              0.411111,
+              0.191182
+            ],
+            [
+              0.470703,
+              0.364583
+            ],
+            [
+              0.746825,
+              0.975661
+            ],
+            [
+              0.220703,
+              0.982639
+            ],
+            [
+              0.273438,
+              0.572917
+            ]
+          ],
+          "points_px": [
+            [
+              160.51,
+              57.9
+            ],
+            [
+              210.49,
+              55.06
+            ],
+            [
+              241,
+              105
+            ],
+            [
+              382.37,
+              280.99
+            ],
+            [
+              113,
+              283
+            ],
+            [
+              140,
+              165
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        },
+        {
+          "region_id": "R2",
+          "name": "phan_duong_phai",
+          "points_normalized": [
+            [
+              0.42619,
+              0.184127
+            ],
+            [
+              0.51746,
+              0.165785
+            ],
+            [
+              0.992188,
+              0.600694
+            ],
+            [
+              0.992188,
+              0.982639
+            ],
+            [
+              0.801587,
+              0.991182
+            ],
+            [
+              0.542969,
+              0.447917
+            ]
+          ],
+          "points_px": [
+            [
+              218.21,
+              53.03
+            ],
+            [
+              264.94,
+              47.75
+            ],
+            [
+              508,
+              173
+            ],
+            [
+              508,
+              283
+            ],
+            [
+              410.41,
+              285.46
+            ],
+            [
+              278,
+              129
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Loại dải phân cách và vỉa hè; cây bên trái có thể che xe. Bỏ vùng đèn chói xa phía trên."
+    },
+    {
+      "index": 24,
+      "camera_id": "662b5b271afb9c00172d9296",
+      "name": "Truong_Chinh_Tan_Hai",
+      "reference_image": "data/raw/snapshots/662b5b271afb9c00172d9296/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "97a3fbe7a885c6123b678ea4170ffd805e9f6c32e54cd60efdfd3c9b60d837d8",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "phan_duong_trai",
+          "points_normalized": [
+            [
+              0.246032,
+              0.24903
+            ],
+            [
+              0.324603,
+              0.239153
+            ],
+            [
+              0.402344,
+              0.4375
+            ],
+            [
+              0.662698,
+              0.989771
+            ],
+            [
+              0.21875,
+              0.982639
+            ],
+            [
+              0.228516,
+              0.625
+            ]
+          ],
+          "points_px": [
+            [
+              125.97,
+              71.72
+            ],
+            [
+              166.2,
+              68.88
+            ],
+            [
+              206,
+              126
+            ],
+            [
+              339.3,
+              285.05
+            ],
+            [
+              112,
+              283
+            ],
+            [
+              117,
+              180
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        },
+        {
+          "region_id": "R2",
+          "name": "phan_duong_phai",
+          "points_normalized": [
+            [
+              0.360317,
+              0.260317
+            ],
+            [
+              0.471429,
+              0.237743
+            ],
+            [
+              0.730469,
+              0.5625
+            ],
+            [
+              0.992188,
+              0.774306
+            ],
+            [
+              0.992188,
+              0.982639
+            ],
+            [
+              0.679688,
+              0.982639
+            ],
+            [
+              0.466797,
+              0.496528
+            ]
+          ],
+          "points_px": [
+            [
+              184.48,
+              74.97
+            ],
+            [
+              241.37,
+              68.47
+            ],
+            [
+              374,
+              162
+            ],
+            [
+              508,
+              223
+            ],
+            [
+              508,
+              283
+            ],
+            [
+              348,
+              283
+            ],
+            [
+              239,
+              143
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Hai phần đường ngăn bởi hàng rào/dải phân cách; mép xa và vỉa hè bị cây che. Cần ảnh ngày xác nhận mép làn sát lề phải."
+    },
+    {
+      "index": 25,
+      "camera_id": "662b5b481afb9c00172d92a8",
+      "name": "Truong_Chinh_Truong_Cong_Dinh",
+      "reference_image": "data/raw/snapshots/662b5b481afb9c00172d92a8/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "796cb9cb4d81911dd3828ecc5f74d7fc474efe96339a7ad1d3c114a7387ec9a2",
+      "review_status": "draft",
+      "confidence": "low",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "phan_duong_gan",
+          "points_normalized": [
+            [
+              0.019531,
+              0.381944
+            ],
+            [
+              0.079365,
+              0.352028
+            ],
+            [
+              0.760317,
+              1
+            ],
+            [
+              0.150391,
+              0.982639
+            ],
+            [
+              0.023016,
+              0.483245
+            ]
+          ],
+          "points_px": [
+            [
+              10,
+              110
+            ],
+            [
+              40.63,
+              101.38
+            ],
+            [
+              389.28,
+              288
+            ],
+            [
+              77,
+              283
+            ],
+            [
+              11.78,
+              139.17
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        },
+        {
+          "region_id": "R2",
+          "name": "phan_duong_xa",
+          "points_normalized": [
+            [
+              0.139683,
+              0.356261
+            ],
+            [
+              0.237302,
+              0.332275
+            ],
+            [
+              0.992188,
+              0.59375
+            ],
+            [
+              0.993651,
+              0.968607
+            ],
+            [
+              0.541016,
+              0.628472
+            ],
+            [
+              0.238095,
+              0.438095
+            ]
+          ],
+          "points_px": [
+            [
+              71.52,
+              102.6
+            ],
+            [
+              121.5,
+              95.7
+            ],
+            [
+              508,
+              171
+            ],
+            [
+              508.75,
+              278.96
+            ],
+            [
+              277,
+              181
+            ],
+            [
+              121.9,
+              126.17
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Dải phân cách chéo chiếm nhiều khung hình. Loại đoạn xa bên trái và công trình phía trên; nhãn xe xa ban đêm khó kiểm chứng. Mép ROI trên phần đường xa cần kiểm tra bằng ảnh ngày."
+    },
+    {
+      "index": 26,
+      "camera_id": "66b1c4a2779f74001867418c",
+      "name": "Le_Van_Si_Pham_Van_Hai",
+      "reference_image": "data/raw/snapshots/66b1c4a2779f74001867418c/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "22d3ab8a6edb75d7e615b205ee4177cfca52221cd3d47dbec0efb959192eceb4",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "doan_duong_truoc_nut_giao",
+          "points_normalized": [
+            [
+              0.335714,
+              0.171429
+            ],
+            [
+              0.557143,
+              0.185538
+            ],
+            [
+              0.611111,
+              0.171429
+            ],
+            [
+              0.625397,
+              0.215168
+            ],
+            [
+              0.603968,
+              0.29418
+            ],
+            [
+              1,
+              0.985538
+            ],
+            [
+              0.298828,
+              0.979167
+            ]
+          ],
+          "points_px": [
+            [
+              171.89,
+              49.37
+            ],
+            [
+              285.26,
+              53.43
+            ],
+            [
+              312.89,
+              49.37
+            ],
+            [
+              320.2,
+              61.97
+            ],
+            [
+              309.23,
+              84.72
+            ],
+            [
+              512,
+              283.83
+            ],
+            [
+              153,
+              282
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Lấy đoạn đường trước vạch qua đường, gồm hai phía quan sát trong cùng một ROI; chưa lấy vùng giao cắt xa để giảm nhập nhằng. Loại vỉa hè/cây và xe đỗ ngoài lòng đường."
+    },
+    {
+      "index": 27,
+      "camera_id": "66b1c4e7779f7400186741e4",
+      "name": "Hoang_Van_Thu_Pham_Van_Hai",
+      "reference_image": "data/raw/snapshots/66b1c4e7779f7400186741e4/20261114_214301.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "a2d6562a1e33701446081bf25ba06ba40d97eb174e0e6e208f5daa5bef9b71ea",
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "phan_duong_trai",
+          "points_normalized": [
+            [
+              0.411111,
+              0.238801
+            ],
+            [
+              0.496825,
+              0.251499
+            ],
+            [
+              0.490234,
+              0.986111
+            ],
+            [
+              0.028571,
+              0.995062
+            ],
+            [
+              0.152381,
+              0.776367
+            ],
+            [
+              0.257143,
+              0.546384
+            ]
+          ],
+          "points_px": [
+            [
+              210.49,
+              68.77
+            ],
+            [
+              254.37,
+              72.43
+            ],
+            [
+              251,
+              284
+            ],
+            [
+              14.63,
+              286.58
+            ],
+            [
+              78.02,
+              223.59
+            ],
+            [
+              131.66,
+              157.36
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        },
+        {
+          "region_id": "R2",
+          "name": "phan_duong_phai",
+          "points_normalized": [
+            [
+              0.503968,
+              0.25291
+            ],
+            [
+              0.615079,
+              0.257143
+            ],
+            [
+              0.672222,
+              0.446208
+            ],
+            [
+              0.748413,
+              0.635273
+            ],
+            [
+              0.896032,
+              0.99224
+            ],
+            [
+              0.509766,
+              0.982639
+            ]
+          ],
+          "points_px": [
+            [
+              258.03,
+              72.84
+            ],
+            [
+              314.92,
+              74.06
+            ],
+            [
+              344.18,
+              128.51
+            ],
+            [
+              383.19,
+              182.96
+            ],
+            [
+              458.77,
+              285.77
+            ],
+            [
+              261,
+              283
+            ]
+          ],
+          "direction_note": "Hướng mô tả theo vị trí trong ảnh; cần kiểm tra hướng lưu thông bằng chuỗi ảnh."
+        }
+      ],
+      "note": "Tách hai phần đường quan sát theo trục giữa ảnh; chưa xác nhận hướng lưu thông thực tế. Cây che nhiều phía phải; không thể loại hết cành che bằng đa giác đơn, cần đánh dấu chất lượng quan sát."
+    },
+    {
+      "index": 28,
+      "camera_id": "5d8cdb4b766c880017188966",
+      "name": "Hoang_Van_Thu_Ut_Tich",
+      "reference_image": "data/raw/snapshots/5d8cdb4b766c880017188966/20261114_104306.jpg",
+      "reference_size": [
+        512,
+        288
+      ],
+      "reference_image_sha256": "db8f9492f5fab2f13a09eb9dc8a79a3225da0d021d12e5be981638c31beaafce",
+      "reference_source": {
+        "repo_id": "ericng17/hcm_traffic_snapshots5",
+        "path": "snapshots/5d8cdb4b766c880017188966/20261114_104306.jpg",
+        "matches_user_attachment": true
+      },
+      "review_status": "draft",
+      "confidence": "medium",
+      "regions": [
+        {
+          "region_id": "R1",
+          "name": "junction_excluding_utility_cabinet",
+          "points_normalized": [
+            [
+              0.035156,
+              0.236111
+            ],
+            [
+              0.109375,
+              0.197917
+            ],
+            [
+              0.204762,
+              0.188007
+            ],
+            [
+              0.292064,
+              0.20776
+            ],
+            [
+              0.37619,
+              0.278307
+            ],
+            [
+              0.476562,
+              0.357639
+            ],
+            [
+              0.570312,
+              0.385417
+            ],
+            [
+              0.654297,
+              0.388889
+            ],
+            [
+              0.775397,
+              0.4194
+            ],
+            [
+              0.888672,
+              0.409722
+            ],
+            [
+              0.996094,
+              0.444444
+            ],
+            [
+              0.996094,
+              0.993056
+            ],
+            [
+              0.310317,
+              0.996473
+            ],
+            [
+              0.311905,
+              0.896296
+            ],
+            [
+              0.28254,
+              0.664903
+            ],
+            [
+              0.085714,
+              0.70582
+            ],
+            [
+              0.052734,
+              0.506944
+            ]
+          ],
+          "points_px": [
+            [
+              18,
+              68
+            ],
+            [
+              56,
+              57
+            ],
+            [
+              104.84,
+              54.15
+            ],
+            [
+              149.54,
+              59.83
+            ],
+            [
+              192.61,
+              80.15
+            ],
+            [
+              244,
+              103
+            ],
+            [
+              292,
+              111
+            ],
+            [
+              335,
+              112
+            ],
+            [
+              397,
+              120.79
+            ],
+            [
+              455,
+              118
+            ],
+            [
+              510,
+              128
+            ],
+            [
+              510,
+              286
+            ],
+            [
+              158.88,
+              286.98
+            ],
+            [
+              159.7,
+              258.13
+            ],
+            [
+              144.66,
+              191.49
+            ],
+            [
+              43.89,
+              203.28
+            ],
+            [
+              27,
+              146
+            ]
+          ],
+          "direction_note": "Giữ phần đường gần và nút giao; chưa phân tách hướng lưu thông từ một ảnh."
+        }
+      ],
+      "note": "ROI lõm loại tủ điện lớn ở góc dưới trái, vỉa hè Co.opmart và phần đường quá xa phía trên trái. Giữ xe đang chờ/đi ngang/chuyển hướng trong vùng; phần mặt đường bị tủ che không quan sát được. Ảnh ngày 14/11/2026 lúc 10:43:05 trên overlay (tên file crawler 10:43:06), cần kiểm tra thêm ảnh đêm và góc nhìn ổn định trước khi duyệt."
+    }
+  ],
+  "missing_cameras": []
+}

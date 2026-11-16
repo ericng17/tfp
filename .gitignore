@@ -15,9 +15,21 @@ data/processed/*.npy
 data/detections/
 
 # Checkpoint nặng (chỉ push lên Hugging Face hoặc Google Drive)
-models/**/*.pt
-models/**/*.pth
-!models/yolo/best.pt   # (Nếu repo cho phép lưu file 50MB, nếu không thì bỏ)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+
+# Dataset archives and large generated arrays
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+*.npy
+*.npz
 
 # Logs & temp results
 *.log

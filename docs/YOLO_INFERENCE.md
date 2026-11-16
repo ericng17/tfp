@@ -146,3 +146,24 @@ CSV này là **quan sát từng ảnh**, chưa phải tensor STGCN. Bước sau 
 resample 1/5 phút bằng mean/median, reindex đầy đủ timeline và tạo missing mask.
 Ảnh không tải được không tồn tại trong source, vì vậy không tự xuất thành hàng lỗi ở đây.
 Không cộng số đếm ảnh thành lưu lượng xe đi qua.
+
+## Notebook 5 repo, ảnh rời và Parquet
+
+Dùng `notebooks/kaggle_hf_vehicle_counting.ipynb` cho snapshots đến snapshots5.
+Notebook chứa sẵn engine `scripts/infer_hf_yolo.py`; không phụ thuộc script local cũ.
+Thêm best.pt từ Output notebook fine-tune vào Kaggle Input và sửa WEIGHTS.
+Bật GPU/Internet, thêm HF_TOKEN vào Secrets. Đầu tiên chạy LIMIT=1000 rồi kiểm tra preview;
+sau đó LIMIT=None để chạy toàn bộ. Save & Run All chạy phiên mới từ đầu.
+
+Hỗ trợ Parquet chứa bytes trong cột image (HF Image struct), kèm camera_id/timestamp
+hoặc image.path có thư mục camera và tên thời gian. Tên cột khác: sửa các tùy chọn
+*_column. Trường hợp Parquet chỉ lưu đường dẫn ảnh ngoài, timestamp epoch số, ZIP
+hoặc thiếu thông tin camera cần adapter theo schema thực tế, không tự đoán metadata.
+
+Chỉ tải một shard/batch vào scratch /tmp và xóa sau xử lý; giữ checkpoint trong
+/kaggle/working/vehicle-counts. Camera/timestamp lỗi dừng run để tránh chuỗi sai.
+Repo revision pin trong SQLite, snapshot mới cần output mới. Giữ hash ảnh và nguồn
+để kiểm tra trùng giữa 5 repo trước khi tạo tensor. Không tự cộng bản ghi trùng.
+
+Engine không tự upload checkpoint lên HF. Để resume phiên Kaggle mới, Add Input Output
+phiên cũ và đặt RESUME_FROM. Phải giữ counts.sqlite và cấu hình. Scratch không cần giữ.
