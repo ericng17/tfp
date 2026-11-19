@@ -43,6 +43,23 @@ repo, cần cập nhật tương ứng các cell nhúng trước khi dùng noteb
 
 ## CKEY / Jupyter qua SSH, notebook lưu trên laptop
 
+Nếu `from ultralytics import YOLO` báo `ImportError: libGL.so.1`, nguyên nhân là
+OpenCV thiếu thư viện hệ thống, chưa liên quan đường dẫn weights. Trên server
+Ubuntu/Debian dùng quyền root, chạy:
+
+```bash
+apt-get update
+apt-get install -y libgl1 libglib2.0-0
+```
+
+`libgthread-2.0.so.0`, `libglib-2.0.so.0` hoặc `libgobject-2.0.so.0` bị thiếu cũng
+được giải quyết bằng gói GLib trên. Nếu Ubuntu mới không có tên `libglib2.0-0`,
+dùng `libglib2.0-0t64` thay thế.
+
+Sau đó chạy lại cell import YOLO. Notebook kiểm tra cả OpenGL và GLib ở cell
+đầu và tự chọn gói GLib theo phiên bản nếu có `apt-get` và quyền root. Lỗi OpenCV khác được giữ
+nguyên thông tin để chẩn đoán; không thay thế âm thầm bằng số đếm rỗng.
+
 Kết nối Existing Jupyter Server qua SSH tunnel chỉ chuyển lệnh và kết quả giữa VS
 Code và kernel. Mọi đường dẫn Python đều thuộc máy GPU: kernel không tự đọc được
 file trên laptop. Máy GPU cần CPU/RAM/VRAM và ổ tạm để nạp model, decode ảnh và
