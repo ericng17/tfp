@@ -1,6 +1,0 @@
-torch==2.9.0
-torchvision
-torchaudio
-scikit-image==0.25.2
-opencv-python-headless==4.13.0.92
-matplotlib==3.10.9

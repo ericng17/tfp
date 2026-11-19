@@ -1,169 +1,225 @@
-# Inference YOLO11 trên Kaggle / Colab
+# Đếm xe bằng YOLO trong ROI đã duyệt
 
-## Thiết kế
+Dùng `scripts/infer_yolo_roi.py`, notebook Colab
+`notebooks/colab_yolo_roi_inference.ipynb` hoặc notebook Kaggle
+`notebooks/kaggle_yolo_roi_inference.ipynb` cho inference và đếm xe trong ROI.
+Script nhận ảnh local hoặc dữ liệu Hugging Face, bắt buộc truyền `--roi`.
+Các script và notebook inference toàn ảnh trước đây đã được thay thế.
+Notebook fine-tune và công cụ duyệt ROI vẫn được giữ.
 
-Ưu tiên một process / GPU, batch ảnh; chưa cần Spark. Spark hữu ích khi có cluster
-nhiều worker/GPU và cấu hình tài nguyên đúng; local Spark trên một notebook không tự
-làm YOLO nhanh hơn, còn có thể tạo nhiều bản model tranh VRAM. Dùng shard nếu có
-hai GPU. Sau inference, bảng số đếm nhỏ hơn ảnh nhiều; pandas đủ cho bước tổng hợp
-ban đầu. Tham khảo: https://docs.ultralytics.com/modes/predict/ và
-https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.functions.predict_batch_udf.html
+## Chạy bằng notebook Colab
 
-Script không upload, không gửi webhook, không tự tải weights. Python >=3.11.
-Đầu vào là **ảnh đã giải nén**, không phải ZIP hoặc Parquet chứa ảnh:
+Upload `notebooks/colab_yolo_roi_inference.ipynb` vào Google Colab và chọn runtime
+GPU. Notebook đã nhúng engine từ `scripts/infer_yolo_roi.py` cùng bộ ROI 28 camera
+đã duyệt; không cần clone repo hay upload file `.py`/ROI riêng.
 
-```text
-snapshots/
-  <camera_id>/20261112_120000.jpg
-  <camera_id>/20261112_120013.jpg
+Chạy các cell theo thứ tự. Mặc định dùng nguồn `huggingface` với 5 repo snapshots
+đến snapshots5 theo đúng thứ tự, `LIMIT = 0` để xử lý toàn bộ. Có thể chọn `local`.
+Weights được đọc trực tiếp từ `/content/drive/MyDrive/tfp/models/yolo/best.pt`,
+tương ứng `My Drive/tfp/models/yolo/best.pt`. Drive được mount trước khi đọc file;
+notebook báo rõ nếu đường dẫn sai. Không có bước upload weights. Repo private cần
+Secret `HF_TOKEN`. Xem mapping class của weights trước khi chạy inference.
+
+Đặt `LIMIT = 1000` nếu muốn chạy thử: giới hạn áp dụng chung cho cả lần gọi và có
+thể chỉ chạy dataset đầu, không phải 1.000 ảnh mỗi dataset. Sau khi kiểm tra preview,
+đặt lại `LIMIT = 0`, chạy lại cell cấu hình và cell inference để tiếp tục toàn bộ.
+Notebook xuất tổng/từng class, preview, checkpoint SQLite, thống kê theo repo và
+có cell tải CSV/ZIP kết quả. `USE_DRIVE = True` mặc định để khôi phục và sao lưu
+checkpoint định kỳ mỗi giờ (`BACKUP_INTERVAL_HOURS = 1`), cùng một lần khi kết thúc
+hoặc Stop. Worker nền dùng SQLite Backup API qua kết nối riêng để tạo snapshot
+nhất quán từ các batch đã commit, xuất CSV của snapshot và thay file trên Drive
+qua file tạm. Không copy trực tiếp database đang ghi. Mỗi chu kỳ một giờ được
+tính sau khi lần sao lưu trước hoàn tất; lỗi sao lưu được ghi log và thử lại ở
+chu kỳ sau. Khi dừng, chờ worker rồi sao lưu lần cuối để tránh hai bản sao ghi đè
+đồng thời. Nếu runtime bị kill cứng, chỉ phục hồi tới lần sao lưu thành công gần
+nhất. Thay cấu hình ảnh hưởng dự đoán cần `RUN_NAME` mới. CSV không thay thế
+checkpoint để resume.
+
+Mã và ROI nhúng là bản chụp tại lúc tạo notebook. Khi cập nhật script hoặc ROI trong
+repo, cần cập nhật tương ứng các cell nhúng trước khi dùng notebook cho run mới.
+
+## Chạy bằng notebook Kaggle
+
+Import `notebooks/kaggle_yolo_roi_inference.ipynb` vào Kaggle, bật GPU và Internet.
+Notebook đã nhúng cùng engine và ROI 28 camera như bản Colab. Thêm Dataset chứa
+`best.pt` hoặc Output của notebook training qua Add Input, rồi sửa `WEIGHTS_PATH`
+theo đường dẫn thật trong `/kaggle/input`. Repo private cần Secret `HF_TOKEN`
+và quyền truy cập của notebook trong Add-ons → Secrets.
+
+Chạy các cell từ trên xuống hoặc Save Version → Save & Run All để chạy nền từ đầu.
+Mặc định xử lý toàn bộ 5 repo theo thứ tự, dùng GPU 0. Đặt `LIMIT = 1000` để chạy
+thử. CSV, preview và checkpoint nằm tại `/kaggle/working/<RUN_NAME>`; cache và mã/ROI
+tạm ở `/tmp`. Cell cuối cung cấp link CSV và ZIP kết quả trong Kaggle Output.
+
+Muốn resume ở phiên mới, lưu toàn bộ Output của version trước, thêm lại qua Add
+Input và đặt `RESUME_FROM` là thư mục chứa `counts.sqlite`, `run.json`, `roi.json`.
+Notebook copy checkpoint sang thư mục có quyền ghi trước khi inference; ảnh đã
+commit được bỏ qua. Giữ cùng weights, cấu hình và phiên bản PyTorch/Ultralytics;
+engine từ chối checkpoint khác cấu hình. Nếu runtime mất, chỉ output còn giữ được
+hoặc version đã lưu mới dùng để resume; riêng CSV không đủ.
+
+## Quy tắc đếm
+
+- Dùng `configs/camera_rois.reviewed.json`: trạng thái chung và từng camera phải
+  là `approved`; đa giác phải hợp lệ, tọa độ chuẩn hóa trong [0,1].
+- YOLO phát hiện trên ảnh gốc; chỉ đếm các class được chỉ định bằng `--classes`.
+- Điểm xét của xe là giữa cạnh đáy bounding box: `((x1+x2)/2, y2)`.
+  Điểm nằm trong hoặc trên biên bất kỳ ROI nào của camera thì xe được tính.
+- Các vùng được hợp lại: một detection nằm trong nhiều vùng vẫn chỉ tính một lần.
+- `total_vehicles` bằng tổng các cột đếm từng class sau khi lọc ROI.
+- Camera thiếu ROI làm dừng run. Không có chế độ đếm toàn ảnh dự phòng.
+- Chấp nhận ảnh được resize cùng tỷ lệ. Sai lệch tỷ lệ khung hình quá 1% so với
+  ảnh tham chiếu làm dừng run; không tự xoay ảnh theo EXIF. Cần kiểm tra bằng mắt
+  nếu camera đổi góc, bị crop hoặc ảnh ngày/đêm có vùng nhìn khác nhau.
+
+Đây là số xe quan sát tại từng ảnh, chưa phải lưu lượng xe đi qua hay nhãn kẹt xe.
+Không cộng số đếm của nhiều snapshot thành số xe duy nhất.
+
+## Chuẩn bị
+
+Python >=3.11. Cài PyTorch phù hợp CUDA của môi trường, sau đó:
+
+```bash
+python -m pip install -r requirements-inference.txt
+python scripts/infer_yolo_roi.py --help
 ```
 
-Tên thư mục cha là camera ID; tên ảnh phải theo YYYYmmdd_HHMMSS. Sai định dạng
-sẽ dừng để tránh gán nhầm timestamp. Mặc định timestamp là giờ Việt Nam; nếu crawler
-chạy theo UTC, dùng `--timezone UTC`. Script hiện đếm toàn ảnh, chưa áp ROI.
-Không trộn các phiên bản ROI/weights/threshold khi tạo một dataset forecasting.
-
-## Chuẩn bị notebook cloud
-
-Bật GPU trong notebook; kiểm tra bằng `!nvidia-smi`. Không giả định loại GPU/quota.
-Đưa repo/script và weights `src/models/yolo/best.pt` lên môi trường cloud.
-Cài dependencies riêng, không cần cài BasicTS:
-
-```python
-%pip install -r /kaggle/working/tfp/requirements-inference.txt
-```
-
-Trên Colab đổi đường dẫn repo thành `/content/tfp`. PyTorch CUDA thường do runtime
-cung cấp; xác nhận `torch.cuda.is_available()` trước khi chạy.
-
-Xem class mapping của **custom weights**, không dùng class ID COCO theo thói quen:
+Weights phải là file local của mô hình detection. Kiểm tra mapping trước khi chọn
+class, không giả định ID COCO:
 
 ```python
 from ultralytics import YOLO
-model = YOLO('/kaggle/working/tfp/src/models/yolo/best.pt')
+model = YOLO('src/models/yolo/yolo11l-v20-run1/weights/best.pt')
 print(model.names)
 ```
 
-Chỉ chọn các ID tương ứng phương tiện. Ví dụ lệnh dưới giả sử 0,1,2,3 đều là xe;
-**thay bằng mapping vừa in ra**.
+Mapping v20 dự kiến: 0 = xe hai bánh, 1 = bus, 2 = car, 3 = truck.
+Chỉ dùng `--classes 0 1 2 3` khi weights thực tế xác nhận mapping này.
 
-## Kaggle
+## Ảnh local
 
-Gắn dữ liệu ảnh qua Kaggle input hoặc tải từng camera/ngày từ kho dữ liệu.
-Nếu lưu ở Hugging Face, dùng HF_TOKEN trong notebook Secrets, không hard-code token.
-Có thể dùng `hf download --help` để kiểm tra CLI của môi trường, ví dụ:
+Đầu vào là thư mục ảnh đã giải nén:
 
-```bash
-hf download ericng17/hcm_traffic_snapshots --repo-type dataset \
-  --include 'snapshots/CAMERA_ID/*' --local-dir /kaggle/working/traffic
+```text
+snapshots/
+  <camera_id>/20261114_120000.jpg
+  <camera_id>/20261114_120013.jpg
 ```
 
-Repo chứa Parquet cần decode/xuất ảnh về cấu trúc trên trước. Chia dữ liệu theo camera/ngày
-để không vượt ổ đĩa notebook; không cần tải cả vài trăm GB cùng lúc.
+Tên thư mục cha là camera ID; tên file là `YYYYmmdd_HHMMSS.jpg` (hỗ trợ cả PNG/JPEG).
+Tên không có timestamp hợp lệ làm dừng run. Mặc định dùng giờ Việt Nam;
+truyền `--timezone UTC` nếu tên ảnh crawler theo UTC.
 
-Benchmark khoảng 1.000 ảnh trước:
+Chạy thử 100 ảnh từ thư mục gốc dự án:
 
 ```bash
-python /kaggle/working/tfp/scripts/infer_yolo.py \
-  --source /kaggle/input/traffic/snapshots \
-  --weights /kaggle/working/tfp/src/models/yolo/best.pt \
-  --output /kaggle/working/yolo-counts \
-  --device 0 --batch 4 --imgsz 1024 --classes 0 1 2 3 --limit 1000
+python scripts/infer_yolo_roi.py \
+  --source data/raw/snapshots \
+  --weights src/models/yolo/yolo11l-v20-run1/weights/best.pt \
+  --roi configs/camera_rois.reviewed.json \
+  --classes 0 1 2 3 \
+  --output outputs/yolo-roi \
+  --device 0 --batch 4 --limit 100 --preview-count 28
 ```
 
-Sau đó chạy cùng lệnh bỏ `--limit 1000`: ảnh đã commit được bỏ qua.
-Bắt đầu batch=4 với YOLO11l/imgsz=1024, tăng 8/16 nếu VRAM cho phép.
-Nếu CUDA OOM, chạy lại với batch nhỏ hơn. Thử `--half` trong output riêng trước khi
-chốt cấu hình; không thay precision giữa một run đang resume. Không giảm imgsz
-chỉ vì tốc độ khi chưa kiểm tra chất lượng đếm xe máy.
+Kiểm tra ảnh trong `outputs/yolo-roi/previews/`: đường xanh là ROI, khung và chấm
+vàng là các xe được tính; nhãn có tổng và số xe từng class. Preview lấy các ảnh đầu
+được xử lý, không bảo đảm đại diện đủ camera/ngày/đêm. Hãy chọn riêng các nhóm ảnh
+đại diện để kiểm chứng ROI và độ chính xác đếm.
 
-Log images/s gồm decode và inference, không gồm download và export cuối. Dùng benchmark
-để ước tính thời gian thực tế; không suy ra tốc độ từ dung lượng GB.
+Chạy lại cùng lệnh, bỏ `--limit 100` để xử lý tiếp toàn bộ dữ liệu.
+`--device auto` (mặc định) yêu cầu CUDA. Khi muốn chạy CPU, đặt rõ
+`--device cpu --batch 1`. `--half` chỉ dành cho CUDA và cần kiểm chứng chất lượng
+trong output riêng. Có thể giảm batch rồi resume nếu hết VRAM.
 
-## Colab
+## Dữ liệu Hugging Face trên Kaggle / Colab
 
-Ưu tiên copy từng phần ảnh từ Drive về SSD `/content` trước khi inference để tránh
-đọc hàng triệu file nhỏ trực tiếp từ Drive. Có thể mount Drive bằng notebook:
+Dùng notebook Colab ở trên, hoặc đưa file `.py`, ROI đã duyệt và weights lên
+runtime để chạy lệnh bên dưới. Bật GPU và Internet, cài dependencies như trên.
+Trên Kaggle, lấy token đọc dữ liệu từ Secrets:
 
 ```python
-from google.colab import drive
-drive.mount('/content/drive')
+import os
+from kaggle_secrets import UserSecretsClient
+os.environ['HF_TOKEN'] = UserSecretsClient().get_secret('HF_TOKEN')
 ```
 
-Dùng cùng script với `--source /content/traffic/snapshots`, weights và output dưới
-`/content`. Định kỳ sao lưu **toàn bộ thư mục output**, đặc biệt `counts.sqlite`,
-sang Drive sau khi dừng process hoặc dùng SQLite backup API nếu process còn chạy.
-Colab/Kaggle có thể mất filesystem tạm khi runtime kết thúc. Checkpoint chỉ giúp resume
-khi bạn giữ lại file; export CSV không thay thế database checkpoint.
-Trên Kaggle lưu/download output trước khi mất phiên; lần sau copy checkpoint cũ vào
-thư mục output có quyền ghi rồi chạy lại cùng lệnh. Không chạy hai process chung DB.
+Trên Colab, dùng `google.colab.userdata.get('HF_TOKEN')` để gán biến môi trường
+tương tự. Không ghi token trực tiếp trong script hoặc lệnh shell.
 
-## Hai GPU hoặc nhiều notebook
-
-Mỗi process có output riêng; chạy lệnh shard 0 trên GPU 0 và shard 1 trên GPU 1:
+Chạy lệnh dưới trong terminal của runtime, sửa đường dẫn weights/script/ROI theo
+vị trí đã upload (nếu dùng cell notebook, thêm `!` trước `python`):
 
 ```bash
-python scripts/infer_yolo.py --source /path/snapshots --weights /path/best.pt \
-  --output /path/counts-0 --device 0 --classes 0 1 2 3 --num-shards 2 --shard-index 0
-python scripts/infer_yolo.py --source /path/snapshots --weights /path/best.pt \
-  --output /path/counts-1 --device 1 --classes 0 1 2 3 --num-shards 2 --shard-index 1
+python scripts/infer_yolo_roi.py \
+  --hf-repos \
+    ericng17/hcm_traffic_snapshots \
+    ericng17/hcm_traffic_snapshots2 \
+    ericng17/hcm_traffic_snapshots3 \
+    ericng17/hcm_traffic_snapshots4 \
+    ericng17/hcm_traffic_snapshots5 \
+  --weights /kaggle/input/YOUR-WEIGHTS/best.pt \
+  --roi configs/camera_rois.reviewed.json \
+  --classes 0 1 2 3 \
+  --output /kaggle/working/yolo-roi \
+  --device 0 --batch 4 --limit 1000 --preview-count 28
 ```
 
-Chạy hai lệnh ở hai process riêng để song song. Trên hai notebook một GPU, đều dùng
-`--device 0`. Hash theo đường dẫn tương đối bảo đảm shard không chồng nhau, miễn source
-có cùng cấu trúc. Giữ nguyên num-shards và shard-index khi resume. Mỗi process quét metadata
-của source nhưng chỉ decode ảnh thuộc shard. Ghép CSV bằng pandas.concat, kiểm tra
-trùng `path` và cùng cấu hình run.json trước khi dùng.
+`--format auto` ưu tiên Parquet nếu repo có Parquet, nếu không sẽ chọn ảnh rời.
+Không xử lý đồng thời cả hai biểu diễn. Có thể đặt `--format raw` hoặc `parquet`.
+Ảnh rời dùng cấu trúc thư mục/tên file như ảnh local. Parquet phải chứa bytes ảnh
+trong cột `image` hoặc struct `image = {bytes, path}`. Camera/thời gian lấy từ
+metadata (`camera_id`/`cam_id`/`camera`, `timestamp`/`datetime`/`time`) hoặc đường dẫn
+ảnh. Có thể chỉ định tên cột khác:
 
-## CPU dự phòng
-
-```bash
-python scripts/infer_yolo.py --source /path/snapshots \
-  --weights src/models/yolo/best.pt --output data/detections/cpu \
-  --device cpu --batch 1 --classes 0 1 2 3 --limit 100
+```text
+--image-column image --path-column file_name
+--camera-column camera_id --timestamp-column timestamp
 ```
 
-Mặc định `auto` yêu cầu CUDA; script không tự rơi xuống CPU ngoài ý muốn.
+Timestamp hỗ trợ datetime, ISO 8601 hoặc `YYYYmmdd_HHMMSS`; giá trị epoch số cần
+chuyển đổi trước. Camera/thời gian không xác định làm dừng run. ZIP và Parquet chỉ
+chứa đường dẫn ngoài, không có bytes ảnh, cần chuẩn bị dữ liệu trước.
+
+Script tải từng batch ảnh rời hoặc một shard Parquet vào thư mục tạm rồi xóa;
+không tải toàn bộ ảnh về ổ đĩa. Repo revision được ghim trong checkpoint. Khi chạy
+tiếp, ảnh đã commit không inference lại. Shard Parquet chưa được đánh dấu hoàn tất
+có thể cần tải/đọc lại để bỏ qua các hàng đã xử lý. Không tự gộp ảnh trùng giữa các
+repo: giữ `image_sha256` và nguồn để kiểm tra trước khi tạo chuỗi thời gian.
 
 ## Đầu ra và resume
 
-- `counts.sqlite`: checkpoint transaction theo batch, truy vấn theo path; RAM không giữ
-  toàn bộ triệu kết quả. Không sửa input đã xử lý; ảnh thay đổi size/mtime sẽ bị từ chối.
-- `run.json`: hash weights, mapping class, threshold, kích thước ảnh, precision, version.
-  Thay cấu hình ảnh hưởng dự đoán phải tạo output mới. Batch/device được phép đổi.
-- `counts.csv`: path, camera_id, timestamp có timezone, status, tổng xe, số xe từng class,
-  error. Ảnh hỏng có status=error và số đếm trống; ảnh hợp lệ không có xe có số đếm 0.
+- `counts.csv`: nguồn ảnh, camera, timestamp, status, `total_vehicles`,
+  `count_<id>_<model.names[id]>`, hash ảnh, hash ROI và lỗi.
+- `counts.sqlite`: checkpoint theo batch. Ảnh hợp lệ không có xe trong ROI có số
+  đếm 0; ảnh hỏng có status `error` và để trống số đếm. Lỗi model/OOM làm rollback
+  batch và dừng, không được ghi thành ảnh không có xe.
+- `run.json`: hash weights/ROI, mapping class, cấu hình và phiên bản thư viện.
+- `roi.json`: bản sao cấu hình ROI dùng trong run.
+- `previews/`: ảnh gốc với các vùng ROI và chỉ các detection được tính.
 
-CSV được export khi kết thúc/dừng thông thường, kể cả khi lỗi inference. Nếu runtime bị
-kill cứng, CSV có thể chưa có nhưng SQLite giữ các batch đã commit. Chạy lại để resume,
-hoặc cùng tham số thêm `--export-only` để xuất dữ liệu đã có. Cần dependencies/model để export.
-Dùng `--retry-errors` khi muốn thử lại ảnh lỗi; ảnh thay đổi cần output mới.
+Thay weights, ROI, class, threshold, kích thước inference, precision hoặc nguồn
+dữ liệu cần output mới. Batch, device, limit, workers và số preview có thể đổi
+khi resume. `--limit` là số ảnh mới/thử lại tối đa trong lần gọi, không phải số
+ảnh tổng của checkpoint. `--retry-errors` xử lý lại các ảnh đã ghi lỗi.
+Ảnh local đã xử lý mà thay size/mtime sẽ bị từ chối; giữ nguồn bất biến trong run.
 
-Chỉ dùng snapshot dữ liệu bất biến trong từng run. Dữ liệu mới có thể thêm vào source;
-chạy lại cùng output để xử lý tiếp. Không dùng thư mục nguồn đang ghi dở file.
+Giữ toàn bộ thư mục output để resume sau khi runtime mất; riêng CSV không đủ.
+Script không tự upload hay sao lưu output. Trên Kaggle, tải/lưu Output rồi copy
+về thư mục có quyền ghi ở phiên sau; trên Colab sao lưu sau khi dừng process hoặc
+dùng SQLite backup API. Mỗi process phải có output riêng.
 
-CSV này là **quan sát từng ảnh**, chưa phải tensor STGCN. Bước sau cần chốt thứ tự camera,
-resample 1/5 phút bằng mean/median, reindex đầy đủ timeline và tạo missing mask.
-Ảnh không tải được không tồn tại trong source, vì vậy không tự xuất thành hàng lỗi ở đây.
-Không cộng số đếm ảnh thành lưu lượng xe đi qua.
+Với nhiều GPU, dùng cùng cấu hình nguồn và `--num-shards 2`, lần lượt
+`--shard-index 0 --device 0` và `--shard-index 1 --device 1`, mỗi process output
+riêng. ID nguồn được hash để phân shard; ghép CSV sau khi kiểm tra cấu hình và ID
+không trùng. Giữ số lượng và chỉ số shard khi resume.
 
-## Notebook 5 repo, ảnh rời và Parquet
+## Kiểm tra logic
 
-Dùng `notebooks/kaggle_hf_vehicle_counting.ipynb` cho snapshots đến snapshots5.
-Notebook chứa sẵn engine `scripts/infer_hf_yolo.py`; không phụ thuộc script local cũ.
-Thêm best.pt từ Output notebook fine-tune vào Kaggle Input và sửa WEIGHTS.
-Bật GPU/Internet, thêm HF_TOKEN vào Secrets. Đầu tiên chạy LIMIT=1000 rồi kiểm tra preview;
-sau đó LIMIT=None để chạy toàn bộ. Save & Run All chạy phiên mới từ đầu.
+```bash
+python -m unittest discover -s tests -v
+```
 
-Hỗ trợ Parquet chứa bytes trong cột image (HF Image struct), kèm camera_id/timestamp
-hoặc image.path có thư mục camera và tên thời gian. Tên cột khác: sửa các tùy chọn
-*_column. Trường hợp Parquet chỉ lưu đường dẫn ảnh ngoài, timestamp epoch số, ZIP
-hoặc thiếu thông tin camera cần adapter theo schema thực tế, không tự đoán metadata.
-
-Chỉ tải một shard/batch vào scratch /tmp và xóa sau xử lý; giữ checkpoint trong
-/kaggle/working/vehicle-counts. Camera/timestamp lỗi dừng run để tránh chuỗi sai.
-Repo revision pin trong SQLite, snapshot mới cần output mới. Giữ hash ảnh và nguồn
-để kiểm tra trùng giữa 5 repo trước khi tạo tensor. Không tự cộng bản ghi trùng.
-
-Engine không tự upload checkpoint lên HF. Để resume phiên Kaggle mới, Add Input Output
-phiên cũ và đặt RESUME_FROM. Phải giữ counts.sqlite và cấu hình. Scratch không cần giữ.
+Các test mô phỏng đầu ra YOLO để kiểm tra lọc ROI, biên, vùng chồng nhau, tổng/từng
+class, ảnh lỗi, rollback, resume, shard và các nguồn ảnh local/HF/Parquet. Chúng
+không đo độ chính xác của weights trên ảnh giao thông thực tế.
