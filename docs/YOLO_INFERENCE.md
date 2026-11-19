@@ -10,7 +10,9 @@ Notebook fine-tune và công cụ duyệt ROI vẫn được giữ.
 ## Chạy bằng notebook Colab
 
 Upload `notebooks/colab_yolo_roi_inference.ipynb` vào Google Colab và chọn runtime
-GPU. Notebook đã nhúng engine từ `scripts/infer_yolo_roi.py` cùng bộ ROI 28 camera
+GPU do Colab cung cấp. Notebook tự nhận diện môi trường; cũng hỗ trợ kernel
+Jupyter trên máy GPU thuê như hướng dẫn bên dưới, không cần `google.colab`.
+Notebook đã nhúng engine từ `scripts/infer_yolo_roi.py` cùng bộ ROI 28 camera
 đã duyệt; không cần clone repo hay upload file `.py`/ROI riêng.
 
 Chạy các cell theo thứ tự. Mặc định dùng nguồn `huggingface` với 5 repo snapshots
@@ -24,8 +26,9 @@ Secret `HF_TOKEN`. Xem mapping class của weights trước khi chạy inference
 thể chỉ chạy dataset đầu, không phải 1.000 ảnh mỗi dataset. Sau khi kiểm tra preview,
 đặt lại `LIMIT = 0`, chạy lại cell cấu hình và cell inference để tiếp tục toàn bộ.
 Notebook xuất tổng/từng class, preview, checkpoint SQLite, thống kê theo repo và
-có cell tải CSV/ZIP kết quả. `USE_DRIVE = True` mặc định để khôi phục và sao lưu
-checkpoint định kỳ mỗi giờ (`BACKUP_INTERVAL_HOURS = 1`), cùng một lần khi kết thúc
+có cell tải CSV/ZIP kết quả. Trên Colab, `USE_DRIVE = True` mặc định để mount Drive.
+`BACKUP_ENABLED = True` khôi phục và sao lưu checkpoint định kỳ mỗi giờ
+(`BACKUP_INTERVAL_HOURS = 1`), cùng một lần khi kết thúc
 hoặc Stop. Worker nền dùng SQLite Backup API qua kết nối riêng để tạo snapshot
 nhất quán từ các batch đã commit, xuất CSV của snapshot và thay file trên Drive
 qua file tạm. Không copy trực tiếp database đang ghi. Mỗi chu kỳ một giờ được
@@ -37,6 +40,52 @@ checkpoint để resume.
 
 Mã và ROI nhúng là bản chụp tại lúc tạo notebook. Khi cập nhật script hoặc ROI trong
 repo, cần cập nhật tương ứng các cell nhúng trước khi dùng notebook cho run mới.
+
+## CKEY / Jupyter qua SSH, notebook lưu trên laptop
+
+Kết nối Existing Jupyter Server qua SSH tunnel chỉ chuyển lệnh và kết quả giữa VS
+Code và kernel. Mọi đường dẫn Python đều thuộc máy GPU: kernel không tự đọc được
+file trên laptop. Máy GPU cần CPU/RAM/VRAM và ổ tạm để nạp model, decode ảnh và
+inference; không thể chỉ trỏ `device=0` từ kernel laptop để dùng GPU qua SSH.
+
+Notebook tự chọn `USE_DRIVE = False` ngoài Colab. Nếu server có `/workspace`, các
+đường dẫn mặc định là:
+
+- Weights: `/workspace/tfp/best.pt`.
+- Output đang chạy: `/workspace/tfp/outputs/yolo-roi-v1`.
+- Snapshot mỗi giờ: `/workspace/tfp/checkpoints/yolo-roi-v1`.
+
+Sửa `RUNTIME_ROOT_PATH`, `WEIGHTS_PATH`, `BACKUP_ROOT_PATH` theo nơi lưu trên
+server. Notebook không cần Google Drive API. `HF_TOKEN` lấy từ biến môi trường
+của kernel hoặc nhập ẩn bằng `getpass`; ảnh Hugging Face tải tạm từng batch/shard.
+Notebook lưu trên laptop, weights gốc và bản sao checkpoint vẫn có thể giữ local.
+
+Trên laptop, chuyển weights một lần (thay `SSH_PORT` và `SERVER_IP` bằng thông tin
+CKEY, sửa đường dẫn weights local nếu cần):
+
+```bash
+ssh -p 1602 root@n1.ckey.vn 'mkdir -p /workspace/tfp'
+rsync -av -e 'ssh -p 1602' \
+  src/models/yolo/yolo11l-v20-run1/weights/best.pt \
+  root@n1.ckey.vn :/workspace/tfp/best.pt
+```
+
+Giữ terminal thứ hai trên laptop để kéo snapshot về local mỗi 5 phút. Snapshot
+được tạo trên server mỗi giờ; lần copy đầu có thể báo chưa có thư mục cho tới
+khi snapshot đầu tiên hoàn tất. Script không đồng bộ database đang ghi trực tiếp:
+
+```bash
+bash scripts/sync_yolo_checkpoint.sh root@SERVER_IP SSH_PORT \
+  "$PWD/checkpoints/yolo-roi-v1" /workspace/tfp/checkpoints/yolo-roi-v1 300
+```
+
+Yêu cầu `ssh`, `rsync` trên laptop và `rsync` trên server. Script dùng kết nối SSH
+bình thường, không chứa mật khẩu/token. Dùng khoảng `0` để copy một lần trước khi
+tắt server. Không chạy inference trên bản local trong khi rsync đang cập nhật nó.
+Nếu mất máy thuê, chuyển toàn bộ checkpoint local sang thư mục snapshot của máy
+mới rồi chạy notebook cùng cấu hình để khôi phục. Giữ versions PyTorch/Ultralytics
+tương thích với run đã lưu. Ổ `/workspace` có được giữ khi tắt/xóa máy hay không
+phụ thuộc dịch vụ/gói thuê; bản đã copy về laptop mới độc lập với vòng đời server.
 
 ## Chạy bằng notebook Kaggle
 
